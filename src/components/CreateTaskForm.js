@@ -17,8 +17,8 @@ const TodayOrFutureDate = t.refinement(t.Date, function (n) {
 
 /* Effort select dropdown element options */
 const Effort = t.enums({
-    NORMAL: 'Normal (1 star)',
-    HIGH: 'High (2 star)'
+    1: 'Normal (1 star)',
+    2: 'High (2 star)'
 });
 
 /*
@@ -89,7 +89,7 @@ export default class CreateTaskForm extends Component {
             <Form
                 ref={c => this._form = c}
                 type={Task}
-                value={{title: task.text, frequency: task.frequency, start: task.start, effort: task.effort}}
+                value={{title: task.title,  frequency: task.frequency.toUpperCase(), effort: task.effort, start: new Date(task.start)}}
                 options={options}
             />
         );

@@ -52,7 +52,6 @@ class CreateTaskScreen extends Component {
 
         const id = this.props.navigation.state.params ? this.props.navigation.state.params.id : null;
         let task = id ? this.getTaskById(id) : {};
-
         return (
             <View>
                 <CreateTaskForm task={task} onFormSubmit={this.handleFormSubmit}/>

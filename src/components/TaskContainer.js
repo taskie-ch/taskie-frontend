@@ -23,7 +23,7 @@ class TaskContainer extends Component {
                 return <TaskCard
                     key={`${task.id}`}
                     id={task.id}
-                    title={task.text}
+                    title={task.title}
                     /*effort={task.effort}
                     frequency={task.frequency}
                     start={task.start}*/
@@ -62,7 +62,7 @@ class TaskContainer extends Component {
 const styles = {
     contentContainer: {
         paddingBottom: 100,
-        paddingTop: 55
+        paddingTop: 55,
     }
 };
 
