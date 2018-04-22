@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import { userIcon } from '../Utils/Icons';
 
 
-export default TaskCard = ({ id, title, frequency, start, effort, done, taskCardPressed}) => {
+export default TaskCard = ({ id, title, frequency, start, effort, done, user, taskCardPressed}) => {
     return (
         <TouchableOpacity key={id} style={container} onPress={ taskCardPressed }>
             <View style={upperRow}>
@@ -12,12 +12,12 @@ export default TaskCard = ({ id, title, frequency, start, effort, done, taskCard
                     source={userIcon}
                 />
                 <Text style={taskTitle}>{title}</Text>
-                <Text style={taskFrequency}>{frequency}</Text>
+                {/*<Text style={taskFrequency}>{frequency ? frequency : 'frequency'}</Text>*/}
             </View>
             <View style={lowerRow}>
-                <Text style={taskStart}>{start}</Text>
-                <Text style={taskEffort}>{effort}</Text>
-                <Text style={taskTitle}>Is done: {done ? "Done" : "In Progress"}</Text>
+                <Text style={taskStart}>{start ? start : 'start'}</Text>
+                {/*<Text style={taskEffort}>{effort ? effort : 'effort'}</Text>*/}
+                <Text style={taskTitle}>Assigned to: {user ? user : 'user name'}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -26,48 +26,55 @@ export default TaskCard = ({ id, title, frequency, start, effort, done, taskCard
 /* Define some CSS rules for TaskCard component elements */
 const styles = StyleSheet.create({
     container: {
-        display: "flex",
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
         marginBottom: 20,
         borderBottomColor: "#e5e5e5",
         borderBottomWidth: 3,
         padding: 20
     },
     upperRow: {
-        display: "flex",
-        flexDirection: "row",
-        marginBottom: 15
+        flex: 1,
+        flexDirection: 'row',
+        height: 20,
+        marginBottom: 10
     },
     lowerRow: {
-        display: "flex",
-        flexDirection: "row",
-        paddingLeft: 50
+        flex: 1,
+        flexDirection: 'row',
+        paddingLeft: 35
     },
     profileIcon: {
         width: 35,
         height: 35,
     },
     taskTitle: {
-        marginTop: 10,
+        marginTop: 5,
         marginLeft: 20,
         marginRight: 5,
-        fontWeight: "bold",
+        width: 'auto',
+        height: 20,
+        fontWeight: 'bold',
     },
     taskFrequency: {
-        marginTop: 10,
-        marginLeft: "auto",
+        marginTop: 5,
+        width: 'auto',
+        height: 20,
         marginRight: 10,
-        fontWeight: "bold",
+        fontWeight: 'bold',
     },
     taskStart: {
-        marginTop: 10,
-        marginLeft: "auto",
+        marginTop: 5,
+        marginLeft: 20,
+        width: 'auto',
+        height: 20,
         marginRight: 10,
-        fontWeight: "bold",
     },
     taskEffort: {
-        marginTop: 10,
-        marginLeft: 5,
-        marginRight: 20
+        marginTop: 5,
+        width: 'auto',
+        height: 20,
     }
 });
 

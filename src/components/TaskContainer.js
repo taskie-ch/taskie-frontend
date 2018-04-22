@@ -24,10 +24,11 @@ class TaskContainer extends Component {
                     key={`${task.id}`}
                     id={task.id}
                     title={task.title}
-                    /*effort={task.effort}
-                    frequency={task.frequency}
-                    start={task.start}*/
+                    // effort={task.effort}
+                    // frequency={task.frequency}
+                    start={task.start ? new Date(task.start).toDateString() : 'Monday'}
                     done={task.done}
+                    user={task.users.length ? task.users[0].toUpperCase() : 'Nickname'}
                     taskCardPressed={() => this.onTaskCardPressed(task.id)}
                 />
             }
@@ -62,7 +63,7 @@ class TaskContainer extends Component {
 const styles = {
     contentContainer: {
         paddingBottom: 100,
-        marginTop: 55,
+        marginTop: 70,
     }
 };
 

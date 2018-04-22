@@ -11,6 +11,7 @@ const initialState = {
         effort: 'NORMAL',
         frequency: 'DAILY',
         start: new Date(),
+        users: ['Alice', 'Bob', 'Chris', 'Dave'],
     },
         /*{
         title: 'Buy groceries',
