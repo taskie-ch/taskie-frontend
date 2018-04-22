@@ -85,11 +85,15 @@ export default class CreateTaskForm extends Component {
     }
 
     createForm(task) {
+        if (task) {
+            task = {title: task.title,  frequency: task.frequency.toUpperCase(), effort: task.effort, start: new Date(task.start)};
+        }
+        
         return (
             <Form
                 ref={c => this._form = c}
                 type={Task}
-                value={{title: task.title,  frequency: task.frequency.toUpperCase(), effort: task.effort, start: new Date(task.start)}}
+                value={task}
                 options={options}
             />
         );
