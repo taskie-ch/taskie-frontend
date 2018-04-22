@@ -52,7 +52,7 @@ class TaskContainer extends Component {
         }
 
         return (
-            <ScrollView contentContainerStyle={ contentContainer }>
+            <ScrollView style={ contentContainer }>
                 {this.renderTaskCards()}
             </ScrollView>
         )
@@ -62,7 +62,7 @@ class TaskContainer extends Component {
 const styles = {
     contentContainer: {
         paddingBottom: 100,
-        paddingTop: 55,
+        marginTop: 55,
     }
 };
 

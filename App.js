@@ -1,9 +1,9 @@
-import { Provider } from 'react-redux';
-import { StackNavigator } from 'react-navigation';
-import React, { Component } from 'react';
-import { YellowBox } from 'react-native';
+import {Provider} from 'react-redux';
+import {StackNavigator} from 'react-navigation';
+import React, {Component} from 'react';
+import {View, YellowBox} from 'react-native';
 import Store from './src/Store';
-import { HomeScreen, CreateTaskScreen } from './src/Screens';
+import {HomeScreen, CreateTaskScreen} from './src/Screens';
 
 
 // Ignore warning in the meantime as mentioned in issue: https://github.com/facebook/react-native/issues/18175
