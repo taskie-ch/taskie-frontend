@@ -18,7 +18,8 @@ const TodayOrFutureDate = t.refinement(t.Date, function (n) {
 /* Effort select dropdown element options */
 const Effort = t.enums({
     1: 'Normal (1 star)',
-    2: 'High (2 star)'
+    2: 'High (2 stars)',
+    3: 'Huge (4 stars)'
 });
 
 /*
