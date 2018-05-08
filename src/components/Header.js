@@ -2,8 +2,14 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { addBlueIcon, xSign, starIcon } from "../Utils/Icons";
 
-export default Header = ({score, navigator}) => {
-    
+export default Header = ({score, onCreateTaskPressed, onTabPressed, tabSelected}) => {
+    let leftActive = (tabSelected === 'Overview');
+    const leftIconStyle = (leftActive) ? [iconLeft, activeTab] : iconLeft;
+    const rightIconStyle = (!leftActive) ? [iconRight, activeTab] : iconRight;
+
+    const leftButtonText = (leftActive) ? activebButtonText : buttonText;
+    const rightButtonText = (!leftActive) ? activebButtonText : buttonText;
+
     return (
         <View style={headerContainer}>
             <View>
@@ -16,27 +22,31 @@ export default Header = ({score, navigator}) => {
                     <Image style={headerStarIcon} source={starIcon}/>
                 </Text>
             </View>
-            
+
             <View style={button}>
                 <TouchableOpacity
-                    style={iconLeft}
-                    onPress={() => navigator.navigate('CreateTask')}
+                    style={leftIconStyle}
+                    onPress={() => onTabPressed('Overview')}
                     title="Overview"
                     accessibilityLabel="Overview"
                 >
-                    <Text style={buttonText}>Overview</Text>
+                    <Text style={leftButtonText}>Overview</Text>
                 </TouchableOpacity>
-                <Image
-                    style={iconCenter}
-                    source={addBlueIcon}
-                />
                 <TouchableOpacity
-                    style={iconRight}
-                    onPress={() => navigator.navigate('CreateTask')}
+                    style={{height: 65}}
+                    onPress={onCreateTaskPressed}>
+                    <Image
+                        style={iconCenterImage}
+                        source={addBlueIcon}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={rightIconStyle}
+                    onPress={() => onTabPressed('HoF')}
                     title="Hall of Fame"
                     accessibilityLabel="Hall of Fame"
                 >
-                    <Text style={buttonText}>Hall of Fame</Text>
+                    <Text style={rightButtonText}>Hall of Fame</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -48,13 +58,16 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     headerTitle: {
-        fontWeight: "normal",
+        justifyContent: 'center',
+        textAlign: 'center',
+        fontWeight: 'normal',
         fontSize: 20,
     },
     headerContent: {
-        fontWeight: "bold",
-        fontSize: 30,
-        marginBottom: 10,
+        fontWeight: 'bold',
+        fontSize: 35,
+        paddingTop: 5,
+        marginBottom: 5,
     },
     button: {
         flex: 1,
@@ -68,18 +81,29 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center'
     },
+    activebButtonText: {
+        fontWeight: 'bold',
+        fontSize: 18,
+        color: '#222526',
+        alignItems: 'center',
+        alignSelf: 'center'
+    },
     headerXIcon: {
-        width: 7,
-        height: 15,
+        width: 7,//70,
+        height: 15,//75,
         paddingLeft: 10,
         paddingRight: 10,
         marginBottom: 5,
     },
     headerStarIcon: {
-        width: 30,
-        height: 30,
+        width: 30,//80,
+        height: 30,//80,
         paddingLeft: 10,
-        paddingRight: 10
+        // paddingRight: 10
+    },
+    activeTab: {
+        borderBottomWidth: 5,
+        borderBottomColor: '#222526'
     },
     iconLeft: {
         marginTop: 12,
@@ -91,9 +115,18 @@ const styles = StyleSheet.create({
         flex: 2
     },
     iconCenter: {
-        width: 40,
-        height: 65,
+        // marginTop: 12,
+        width: 100,
+        height: 40,
+        paddingLeft: 8,
+        paddingRight: 8,
         flex: 1
+    },
+    iconCenterImage: {
+        width: 60,
+        height: 65,
+        marginLeft: 10,
+        marginRight: 10
     },
     iconRight: {
         marginTop: 12,
@@ -117,4 +150,4 @@ const styles = StyleSheet.create({
     }
 });
 
-const {headerContainer, headerTitle, headerContent, headerXIcon, headerStarIcon, button, buttonText, iconLeft, iconCenter, iconRight} = styles;
+const {headerContainer, headerTitle, headerContent, button, buttonText, activebButtonText, headerXIcon, headerStarIcon, activeTab, iconLeft, iconCenter, iconCenterImage, iconRight} = styles;

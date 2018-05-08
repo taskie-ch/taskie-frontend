@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import Header from '../components/Header';
 import TaskContainer from '../components/TaskContainer';
-import FetchUser from './../Actions/FetchUser';
+import HallOfFameContainer from "../components/HallOfFameContainer";
+import { FetchUsers } from './../Actions/FetchUsers';
 
 class HomeScreen extends Component {
     // Sets title of "tab"
@@ -11,27 +12,58 @@ class HomeScreen extends Component {
         title: 'Cleaning Schedule',
     };
     
-    componentDidMount() {
-        this.props.FetchUser();
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            tabSelected: 'Overview'
+        };
+        
+        this.onTabPressed = this.onTabPressed.bind(this);
+        
     }
-
+    
+    componentDidMount() {
+        this.props.FetchUsers();
+    }
+    
     renderHeader() {
-        const user = this.props.user;
-        let score = user ? user.score : 'score';
+        const currentUser = this.props.currentUser;
+        let score = currentUser ? currentUser.score : 'score';
+        
+        const {tabSelected} = this.state;
         return (
             <Header
+                tabSelected={tabSelected}
+                onTabPressed={this.onTabPressed}
+                onCreateTaskPressed={() => this.onCreateTaskPressed()}
                 score={score}
-                navigator={this.props.navigation}
             />
         );
     }
-
+    
+    onTabPressed(tabSelected) {
+        console.log(tabSelected);
+        this.setState({
+            tabSelected: tabSelected
+        })
+    }
+    
+    onCreateTaskPressed() {
+        const navigator = this.props.navigation;
+        navigator.navigate('CreateTask');
+    }
+    
     render() {
         return (
             <View>
-                {/*<Header navigator={this.props.navigation}/>*/}
                 {this.renderHeader()}
+                {this.state.tabSelected === 'Overview' &&
                 <TaskContainer navigator={this.props.navigation}/>
+                }
+                {this.state.tabSelected === 'HoF' &&
+                <HallOfFameContainer>asf</HallOfFameContainer>
+                }
             </View>
         );
     }
@@ -39,8 +71,8 @@ class HomeScreen extends Component {
 
 function mapStateToProps(state) {
     return {
-        user: state.userData.user
+        currentUser: state.usersData.currentUser
     }
 }
 
-export default connect(mapStateToProps, { FetchUser })(HomeScreen)
+export default connect(mapStateToProps, { FetchUsers })(HomeScreen)
