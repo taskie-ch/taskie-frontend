@@ -1,10 +1,9 @@
-import {Provider} from 'react-redux';
-import {StackNavigator} from 'react-navigation';
-import React, {Component} from 'react';
-import {View, YellowBox} from 'react-native';
+import { Provider } from 'react-redux';
+import { StackNavigator, SwitchNavigator } from 'react-navigation';
+import React, { Component } from 'react';
+import { View, YellowBox } from 'react-native';
 import Store from './src/Store';
-import {HomeScreen, CreateTaskScreen} from './src/Screens';
-
+import { HomeScreen, CreateTaskScreen, SignInScreen, AuthLoadingScreen } from './src/Screens';
 
 // Ignore warning in the meantime as mentioned in issue: https://github.com/facebook/react-native/issues/18175
 YellowBox.ignoreWarnings([
@@ -12,6 +11,15 @@ YellowBox.ignoreWarnings([
     'Warning: componentWillReceiveProps is deprecated',
     'Warning: componentWillUpdate is deprecated',
 ]);
+
+const AuthStack = StackNavigator(
+    {
+        SignIn: {
+            screen: SignInScreen,
+            title: 'Sign in',
+        },
+    }
+);
 
 const AppNavigator = StackNavigator(
     {
@@ -28,11 +36,23 @@ const AppNavigator = StackNavigator(
     },
 );
 
+const SwitchNav = SwitchNavigator(
+    {
+        AuthLoading: AuthLoadingScreen,
+        App: AppNavigator,
+        Auth: AuthStack,
+    },
+    {
+        initialRouteName: 'AuthLoading',
+    }
+);
+
 export default class App extends Component {
     render() {
+        console.log('PASSed -----------------------------------------------');
         return (
             <Provider store={Store}>
-                <AppNavigator/>
+                <SwitchNav/>
             </Provider>
         );
     }
