@@ -18,7 +18,8 @@ class TaskContainer extends Component {
     }
 
     renderTaskCards() {
-        const tasks = this.props.tasks;
+        let tasks = this.props.tasks;
+        tasks.sort(function(task1, task2){return new Date(task1.start) - new Date(task2.start)});
         return tasks.map(task => {
                 return <TaskCard
                     key={`${task.id}`}
