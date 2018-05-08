@@ -4,6 +4,6 @@ import UserReducer from './UserReducer';
 
 
 export default combineReducers({
-    userData: UserReducer,
+    usersData: UserReducer,
     taskData: TaskReducer
 });
