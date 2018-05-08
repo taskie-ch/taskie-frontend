@@ -52,18 +52,23 @@ class CreateTaskScreen extends Component {
 
         const id = this.props.navigation.state.params ? this.props.navigation.state.params.id : null;
         let task = id ? this.getTaskById(id) : null;
+        console.log('Just for debug');
+        console.log(title);
+        console.log(frequency);
+        console.log(start);
+        console.log(effort);
         return (
             <View>
                 <CreateTaskForm task={task} onFormSubmit={this.handleFormSubmit}/>
 
-                <View style={container}>
-                    <Text style={{color: "red"}}>Just for debug</Text>
-                    <Text>Title: {title}</Text>
-                    <Text>Frequency: {frequency}</Text>
-                    <Text>Start: {start}</Text>
-                    <Text>Effort: {effort}</Text>
-                    <Text>Done: {done}</Text>
-                </View>
+                {/*<View style={container}>*/}
+                    {/*<Text style={{color: "red"}}>Just for debug</Text>*/}
+                    {/*<Text>Title: {title}</Text>*/}
+                    {/*<Text>Frequency: {frequency}</Text>*/}
+                    {/*<Text>Start: {start}</Text>*/}
+                    {/*<Text>Effort: {effort}</Text>*/}
+                    {/*<Text>Done: {done}</Text>*/}
+                {/*</View>*/}
             </View>
         )
     }
