@@ -17,7 +17,7 @@ export default TaskCard = ({ id, title, frequency, start, effort, done, user, ta
             <View style={lowerRow}>
                 <Text style={taskStart}>{start ? start : 'start'}</Text>
                 {/*<Text style={taskEffort}>{effort ? effort : 'effort'}</Text>*/}
-                <Text style={taskTitle}>Assigned to: {user ? user : 'user name'}</Text>
+                <Text style={taskAssagnee}>{user ? user : 'user name'}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     taskStart: {
+        flex: 1,
         marginTop: 5,
         marginLeft: 20,
         width: 'auto',
@@ -75,7 +76,18 @@ const styles = StyleSheet.create({
         marginTop: 5,
         width: 'auto',
         height: 20,
-    }
+    },
+    taskAssagnee: {
+        flex: 1,
+        textAlign: 'right',
+        marginBottom: 5,
+        // marginLeft: 10,
+        marginRight: 5,
+        width: 'auto',
+        height: 20,
+        fontWeight: 'bold',
+        fontSize: 15,
+    },
 });
 
 const {
@@ -86,5 +98,6 @@ const {
     taskTitle,
     taskFrequency,
     taskStart,
-    taskEffort
+    taskEffort,
+    taskAssagnee
 } = styles;
