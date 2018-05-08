@@ -35,6 +35,8 @@ const Task = t.struct({
     frequency: Frequency,
     start: TodayOrFutureDate,
     effort: Effort,
+    users: [],
+    // usersRoration: [],
     // done: t.Boolean
 });
 
@@ -87,7 +89,14 @@ export default class CreateTaskForm extends Component {
 
     createForm(task) {
         if (task) {
-            task = {title: task.title,  frequency: task.frequency.toUpperCase(), effort: task.effort, start: new Date(task.start)};
+            task = {
+                title: task.title,
+                frequency: task.frequency.toUpperCase(),
+                effort: task.effort,
+                start: new Date(task.start),
+                users: task.users,
+                // usersRotation: task.usersRotation,
+            };
         }
         
         return (

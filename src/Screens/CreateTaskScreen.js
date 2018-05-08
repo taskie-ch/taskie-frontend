@@ -19,6 +19,8 @@ class CreateTaskScreen extends Component {
             start: "",
             effort: "",
             done: "",
+            users: [],
+            // usersRotation: [],
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
@@ -34,6 +36,8 @@ class CreateTaskScreen extends Component {
                 start: value.start,
                 effort: value.effort,
                 done: value.done,
+                users: value.users,
+                // usersRotation: value.usersRotation,
             });
     }
 
@@ -45,7 +49,7 @@ class CreateTaskScreen extends Component {
     }
 
     render() {
-        let {title: title, frequency: frequency, start: start, effort: effort, done: done} = this.state;
+        let {title: title, frequency: frequency, start: start, effort: effort, done: done, users: users, usersRotation: usersRotation} = this.state;
         if (start) {
             start = start.toLocaleDateString();
         }
@@ -57,6 +61,8 @@ class CreateTaskScreen extends Component {
         console.log(frequency);
         console.log(start);
         console.log(effort);
+        console.log(users);
+        console.log(usersRotation);
         return (
             <View>
                 <CreateTaskForm task={task} onFormSubmit={this.handleFormSubmit}/>

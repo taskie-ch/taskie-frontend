@@ -30,6 +30,7 @@ class TaskContainer extends Component {
                     start={task.start ? new Date(task.start).toDateString() : 'Monday'}
                     done={task.done}
                     user={task.users.length ? task.users[0].toUpperCase() : 'Nickname'}
+                    // user={task.usersRotation.length ? task.usersRotation[0].toUpperCase() : 'Nickname'}
                     taskCardPressed={() => this.onTaskCardPressed(task.id)}
                 />
             }

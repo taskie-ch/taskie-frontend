@@ -12,6 +12,7 @@ const initialState = {
         frequency: 'DAILY',
         start: new Date(),
         users: ['Alice', 'Bob', 'Chris', 'Dave'],
+        // usersRotation: ['Alice', 'Bob', 'Chris', 'Dave'],
     },
         /*{
         title: 'Buy groceries',
