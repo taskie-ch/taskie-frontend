@@ -73,23 +73,55 @@ export default class CreateTaskForm extends Component {
         super(props);
     
         this.state = {
-            sorted: [],
             unsorted: [
                 {
-                    is: 1,
+                    id: 1,
                     nickname: 'Jane',
+                    score: 6,
+                    isEnabled: true,
                 },
                 {
-                    is: 2,
+                    id: 2,
                     nickname: 'Tom',
+                    score: 5,
+                    isEnabled: true,
                 },
                 {
-                    is: 3,
+                    id: 3,
                     nickname: 'Joe',
+                    score: 3,
+                    isEnabled: true,
                 },
                 {
-                    is: 4,
+                    id: 4,
                     nickname: 'Doe',
+                    score: 2,
+                    isEnabled: true,
+                },],
+            sorted: [
+                {
+                    id: 1,
+                    nickname: 'Jane',
+                    score: 6,
+                    isEnabled: true,
+                },
+                {
+                    id: 2,
+                    nickname: 'Tom',
+                    score: 5,
+                    isEnabled: true,
+                },
+                {
+                    id: 3,
+                    nickname: 'Joe',
+                    score: 3,
+                    isEnabled: true,
+                },
+                {
+                    id: 4,
+                    nickname: 'Doe',
+                    score: 2,
+                    isEnabled: true,
                 },
             ]
         };
@@ -102,11 +134,23 @@ export default class CreateTaskForm extends Component {
     /* 'Add task' submit function */
     handleSubmit() {
         // Save the Task instance as 'value'.
-        const value = this._form.getValue();
+        let value = this._form.getValue();
+
+        // Get the usersRotation's ID order.
+        let usersID = [];
+        const sorted = this.state.sorted.slice();
+        sorted.map(item => { usersID.push(item.id); });
+
+        value = {
+            title: value.title,
+            frequency: value.frequency,
+            start: value.start,
+            effort: value.effort,
+            users: usersID,
+        };
 
         // If validation fails, value will be null.
         if (value) {
-            console.log(value);
             // The onFormSubmit function was passed down as a prop from App.js
             this.props.onFormSubmit(value);
         }
@@ -153,14 +197,10 @@ export default class CreateTaskForm extends Component {
         const unsorted = this.state.unsorted.slice();
         return (
             <View style={usersRotationContainer}>
-                <Text style={paragraph}>This is just for debug! Here is the sorted list of items!</Text>
-                {/*<View>*/}
-                    {/*{sorted.map(item => <Text>{item.nickname}</Text>)}*/}
-                {/*</View>*/}
                 <SortableForm
                     sorted={sorted}
                     unsorted={unsorted}
-                    submit={this.submitForm}
+                    // submit={this.submitForm}
                     itemsFormat={item => item.nickname}
                     onSortChange={this.onSortChange}
                 />
@@ -171,27 +211,11 @@ export default class CreateTaskForm extends Component {
     /* Build the form markup to be rendered */
     render() {
         const {task} = this.props;
-        const sorted = this.state.sorted.slice();
-        const unsorted = this.state.unsorted.slice();
         return (
             <View style={container}>
                 {this.createForm(task)}
-                <Text>Tap on the profile pictures to define a sequence:</Text>
-                {/*{this.renderUsersRotation()}*/}
-                <View style={usersRotationContainer}>
-                    {/*<Text>This is just for debug! Here is the sorted list of items!</Text>*/}
-                    {/*<Text style={paragraph}>This is just for debug! Here is the sorted list of items!</Text>*/}
-                    {/*<View>*/}
-                        {/*{sorted.map(item => <Text>{item.nickname}</Text>)}*/}
-                    {/*</View>*/}
-                    <SortableForm
-                        sorted={sorted}
-                        unsorted={unsorted}
-                        // submit={this.submitForm}
-                        itemsFormat={item => item.nickname}
-                        onSortChange={this.onSortChange}
-                    />
-                </View>
+                <Text style={paragraph}>Tap on the pictures to change the order:</Text>
+                {this.renderUsersRotation()}
                 <TouchableHighlight style={button} onPress={this.handleSubmit} underlayColor='#99d9f4'>
                     <Text style={buttonText}>Add Task</Text>
                 </TouchableHighlight>
@@ -216,7 +240,7 @@ const styles = StyleSheet.create({
         borderColor: '#48BBEC',
         borderWidth: 1,
         borderRadius: 8,
-        marginTop: 100,
+        marginTop: 125,
         marginBottom: 10,
         alignSelf: 'stretch',
         justifyContent: 'center'
@@ -235,11 +259,11 @@ const styles = StyleSheet.create({
         // backgroundColor: '#ecf0f1',
     },
     paragraph: {
-        // margin: 24,
-        // fontSize: 18,
-        fontWeight: 'bold',
-        // textAlign: 'center',
-        color: '#34495e',
+        marginBottom: 7,
+        fontSize: 17,
+        fontWeight: 'normal',
+        // color: '#34495e',
+        color: '#000',
     },
 });
 
