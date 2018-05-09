@@ -1,7 +1,8 @@
 import t from 'tcomb-form-native';
 import React, { Component } from 'react';
-import { Text, StyleSheet, TouchableHighlight, View } from 'react-native';
-
+import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
+import { Constants } from 'expo';
+import SortableForm from './SortableForm';
 
 /* Frequency select dropdown element options */
 const Frequency = t.enums({
@@ -35,7 +36,7 @@ const Task = t.struct({
     frequency: Frequency,
     start: TodayOrFutureDate,
     effort: Effort,
-    users: [],
+    // users: [],
     // usersRoration: [],
     // done: t.Boolean
 });
@@ -70,7 +71,31 @@ export default class CreateTaskForm extends Component {
 
     constructor(props) {
         super(props);
-
+    
+        this.state = {
+            sorted: [],
+            unsorted: [
+                {
+                    is: 1,
+                    nickname: 'Jane',
+                },
+                {
+                    is: 2,
+                    nickname: 'Tom',
+                },
+                {
+                    is: 3,
+                    nickname: 'Joe',
+                },
+                {
+                    is: 4,
+                    nickname: 'Doe',
+                },
+            ]
+        };
+    
+        this.submitForm = this.submitForm.bind(this);
+        this.onSortChange = this.onSortChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -108,13 +133,65 @@ export default class CreateTaskForm extends Component {
             />
         );
     }
+    
+    submitForm(value) {
+        this.setState({
+            sorted: value.sorted,
+            unsorted: value.unsorted,
+        });
+    }
+    
+    onSortChange(value) {
+        this.setState({
+            sorted: value.sorted,
+            unsorted: value.unsorted,
+        });
+    }
+    
+    renderUsersRotation() {
+        const sorted = this.state.sorted.slice();
+        const unsorted = this.state.unsorted.slice();
+        return (
+            <View style={usersRotationContainer}>
+                <Text style={paragraph}>This is just for debug! Here is the sorted list of items!</Text>
+                {/*<View>*/}
+                    {/*{sorted.map(item => <Text>{item.nickname}</Text>)}*/}
+                {/*</View>*/}
+                <SortableForm
+                    sorted={sorted}
+                    unsorted={unsorted}
+                    submit={this.submitForm}
+                    itemsFormat={item => item.nickname}
+                    onSortChange={this.onSortChange}
+                />
+            </View>
+        );
+    }
 
     /* Build the form markup to be rendered */
     render() {
         const {task} = this.props;
+        const sorted = this.state.sorted.slice();
+        const unsorted = this.state.unsorted.slice();
         return (
             <View style={container}>
                 {this.createForm(task)}
+                <Text>Tap on the profile pictures to define a sequence:</Text>
+                {/*{this.renderUsersRotation()}*/}
+                <View style={usersRotationContainer}>
+                    {/*<Text>This is just for debug! Here is the sorted list of items!</Text>*/}
+                    {/*<Text style={paragraph}>This is just for debug! Here is the sorted list of items!</Text>*/}
+                    {/*<View>*/}
+                        {/*{sorted.map(item => <Text>{item.nickname}</Text>)}*/}
+                    {/*</View>*/}
+                    <SortableForm
+                        sorted={sorted}
+                        unsorted={unsorted}
+                        // submit={this.submitForm}
+                        itemsFormat={item => item.nickname}
+                        onSortChange={this.onSortChange}
+                    />
+                </View>
                 <TouchableHighlight style={button} onPress={this.handleSubmit} underlayColor='#99d9f4'>
                     <Text style={buttonText}>Add Task</Text>
                 </TouchableHighlight>
@@ -139,6 +216,7 @@ const styles = StyleSheet.create({
         borderColor: '#48BBEC',
         borderWidth: 1,
         borderRadius: 8,
+        marginTop: 100,
         marginBottom: 10,
         alignSelf: 'stretch',
         justifyContent: 'center'
@@ -147,7 +225,22 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'white',
         alignSelf: 'center'
-    }
+    },
+    usersRotationContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        // height: 100,
+        // paddingTop: Constants.statusBarHeight,
+        // backgroundColor: '#ecf0f1',
+    },
+    paragraph: {
+        // margin: 24,
+        // fontSize: 18,
+        fontWeight: 'bold',
+        // textAlign: 'center',
+        color: '#34495e',
+    },
 });
 
-const { container, button, buttonText } = styles;
+const { container, button, buttonText, usersRotationContainer, paragraph } = styles;
