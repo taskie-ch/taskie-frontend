@@ -49,23 +49,30 @@ class CreateTaskScreen extends Component {
     }
 
     render() {
-        let {title: title, frequency: frequency, start: start, effort: effort, done: done, users: users, usersRotation: usersRotation} = this.state;
+        // console.log('this.state');
+        // console.log(this.state);
+        // console.log(this.props.navigation.state);
+        let {roommates} = this.props;
+        // console.log('ROOMMATES');
+        // console.log(roommates);
+        let {title: title, frequency: frequency, start: start, effort: effort, done: done, users: users} = this.state;
         if (start) {
             start = start.toLocaleDateString();
         }
 
         const id = this.props.navigation.state.params ? this.props.navigation.state.params.id : null;
         let task = id ? this.getTaskById(id) : null;
-        console.log('Just for debug');
-        console.log(title);
-        console.log(frequency);
-        console.log(start);
-        console.log(effort);
-        console.log(users);
-        console.log(usersRotation);
+        // console.log('Just for debug');
+        // console.log(task);
+        // console.log(task.title);
+        // console.log(frequency);
+        // console.log(start);
+        // console.log(effort);
+        // console.log(users);
+        // console.log(usersRotation);
         return (
             <View>
-                <CreateTaskForm task={task} onFormSubmit={this.handleFormSubmit}/>
+                <CreateTaskForm task={task} roommates={roommates} onFormSubmit={this.handleFormSubmit}/>
 
                 {/*<View style={container}>*/}
                     {/*<Text style={{color: "red"}}>Just for debug</Text>*/}
@@ -93,7 +100,8 @@ const { container } = styles;
 /* Bind the Store's state to CreateTaskScreen props */
 function mapStateToProps(state) {
     return {
-        tasks: state.taskData.tasks
+        tasks: state.taskData.tasks,
+        roommates: state.usersData.users,
     }
 }
 

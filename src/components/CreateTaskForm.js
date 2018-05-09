@@ -46,6 +46,7 @@ const Form = t.form.Form;
 
 /* Define error messages for invalid Form POST event */
 const options = {
+    // auto: 'placeholders',
     fields: {
         title: {
             error: 'GIVE ME A TITLE!'
@@ -62,6 +63,9 @@ const options = {
         },
         effort: {
             error: 'GIVE ME AN EFFORT!'
+        },
+        users: {
+        //     error: ''
         }
     }
 };
@@ -70,60 +74,67 @@ const options = {
 export default class CreateTaskForm extends Component {
 
     constructor(props) {
+        console.log('CREATE TASK FORM PROPS');
+        console.log(props);
         super(props);
+        const {roommates} = this.props;
+        const usersRotation = this.resetRoommates(roommates);
+        console.log(usersRotation);
     
         this.state = {
-            unsorted: [
-                {
-                    id: 1,
-                    nickname: 'Jane',
-                    score: 6,
-                    isEnabled: true,
-                },
-                {
-                    id: 2,
-                    nickname: 'Tom',
-                    score: 5,
-                    isEnabled: true,
-                },
-                {
-                    id: 3,
-                    nickname: 'Joe',
-                    score: 3,
-                    isEnabled: true,
-                },
-                {
-                    id: 4,
-                    nickname: 'Doe',
-                    score: 2,
-                    isEnabled: true,
-                },],
-            sorted: [
-                {
-                    id: 1,
-                    nickname: 'Jane',
-                    score: 6,
-                    isEnabled: true,
-                },
-                {
-                    id: 2,
-                    nickname: 'Tom',
-                    score: 5,
-                    isEnabled: true,
-                },
-                {
-                    id: 3,
-                    nickname: 'Joe',
-                    score: 3,
-                    isEnabled: true,
-                },
-                {
-                    id: 4,
-                    nickname: 'Doe',
-                    score: 2,
-                    isEnabled: true,
-                },
-            ]
+            sorted: usersRotation,
+            unsorted: usersRotation,
+            // unsorted: [
+            //     {
+            //         id: 1,
+            //         nickname: 'Jane',
+            //         score: 6,
+            //         isEnabled: true,
+            //     },
+            //     {
+            //         id: 2,
+            //         nickname: 'Tom',
+            //         score: 5,
+            //         isEnabled: true,
+            //     },
+            //     {
+            //         id: 3,
+            //         nickname: 'Joe',
+            //         score: 3,
+            //         isEnabled: true,
+            //     },
+            //     {
+            //         id: 4,
+            //         nickname: 'Doe',
+            //         score: 2,
+            //         isEnabled: true,
+            //     },],
+            // sorted: [
+            //     {
+            //         id: 1,
+            //         nickname: 'Jane',
+            //         score: 6,
+            //         isEnabled: true,
+            //     },
+            //     {
+            //         id: 2,
+            //         nickname: 'Tom',
+            //         score: 5,
+            //         isEnabled: true,
+            //     },
+            //     {
+            //         id: 3,
+            //         nickname: 'Joe',
+            //         score: 3,
+            //         isEnabled: true,
+            //     },
+            //     {
+            //         id: 4,
+            //         nickname: 'Doe',
+            //         score: 2,
+            //         isEnabled: true,
+            //     },
+            // ]
         };
     
         this.submitForm = this.submitForm.bind(this);
@@ -141,16 +152,17 @@ export default class CreateTaskForm extends Component {
         const sorted = this.state.sorted.slice();
         sorted.map(item => { usersID.push(item.id); });
 
-        value = {
-            title: value.title,
-            frequency: value.frequency,
-            start: value.start,
-            effort: value.effort,
-            users: usersID,
-        };
-
         // If validation fails, value will be null.
         if (value) {
+            const {roommates} = this.props;
+            this.resetRoommates(roommates);
+            value = {
+                title: value.title,
+                frequency: value.frequency,
+                start: value.start,
+                effort: value.effort,
+                users: usersID,
+            };
             // The onFormSubmit function was passed down as a prop from App.js
             this.props.onFormSubmit(value);
         }
@@ -158,6 +170,8 @@ export default class CreateTaskForm extends Component {
 
     createForm(task) {
         if (task) {
+            console.log('CREATE FORM');
+            console.log(task.users);
             task = {
                 title: task.title,
                 frequency: task.frequency.toUpperCase(),
@@ -176,6 +190,27 @@ export default class CreateTaskForm extends Component {
                 options={options}
             />
         );
+    }
+    
+    resetRoommates(roommates) {
+        // Set all usersRotation's roomies isEnabled back to true.
+        let usersRotation = [];
+        roommates.map(roomie => {
+            roomie = {
+                id: roomie ? roomie.id : null,
+                nickname: roomie ? roomie.nickname : null,
+                score: roomie ? roomie.score : null,
+                isEnabled: true,
+            };
+            usersRotation.push(roomie);
+        });
+
+        this.setState({
+            sorted: usersRotation,
+            unsorted: usersRotation,
+        });
+
+        return usersRotation;
     }
     
     submitForm(value) {
@@ -217,7 +252,7 @@ export default class CreateTaskForm extends Component {
                 <Text style={paragraph}>Tap on the pictures to change the order:</Text>
                 {this.renderUsersRotation()}
                 <TouchableHighlight style={button} onPress={this.handleSubmit} underlayColor='#99d9f4'>
-                    <Text style={buttonText}>Add Task</Text>
+                    <Text style={buttonText}>{task ? 'Update Task' : 'Add Task'}</Text>
                 </TouchableHighlight>
             </View>
         )
