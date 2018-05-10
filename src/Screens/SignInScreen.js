@@ -40,17 +40,22 @@ class SignInScreen extends Component {
     
     _signInAsync = async (nickname, password) => {
         console.log("Signin in: " + nickname);
-        await AsyncStorage.setItem('userToken', '1234');
+        // await AsyncStorage.setItem('currentUserID', '1234');
+        const currentUserID = await AsyncStorage.getItem('currentUserID');
+        console.log(currentUserID);
         console.log("Dispatch log in");
         
-        const bypassLogin = true;
+        const bypassLogin = false;
         
         this.props.LogInUser(nickname, password)
             .then((user) => {
                 console.log("User login success!!");
                 console.log(user);
-                AsyncStorage.setItem('userToken', user.userToken);
-                this.setCurrentUser(user.userToken, user.nickname, user.score);
+                // console.log(this.props);
+                // AsyncStorage.setItem('currentUserID', user.id);
+                const currentUser = AsyncStorage.getItem('currentUserID');
+                console.log(currentUser);
+                // this.setCurrentUser(user.userToken, user.nickname, user.score);
                 this.navigateToApp();
             })
             .catch(error => {
