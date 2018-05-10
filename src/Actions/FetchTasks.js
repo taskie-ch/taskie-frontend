@@ -14,11 +14,13 @@ export default function FetchTasks() {
 
         return axios.get(`${apiBaseURL}/tasks`)
             .then(res => {
+                console.log('FETCHING_TASKS_SUCCESS red ---');
+                console.log(res);
                 return dispatch({ type: FETCHING_TASKS_SUCCESS, payload: res.data });
             })
             .catch(err => {
                 return dispatch({ type: FETCHING_TASKS_FAIL, payload: err });
-            });   
+            });
 
     }
 }
