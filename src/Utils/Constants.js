@@ -1,1 +1,1 @@
-export const apiBaseURL = 'https://taskie-backend.herokuapp.com';
+export const apiBaseURL = 'https://taskie-backend.herokuapp.com/flats/1';
