@@ -14,7 +14,7 @@ import { AsyncStorage } from "react-native";
 export function FetchUsers() {
     return dispatch => {
         
-        dispatch({ type: FETCHING_USERS });
+        // dispatch({ type: FETCHING_USERS });
         
         return axios.get(`${apiBaseURL}/hof`)
             .then(res => {
