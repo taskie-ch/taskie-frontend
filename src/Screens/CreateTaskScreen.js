@@ -5,8 +5,11 @@ import CreateTaskForm from '../components/CreateTaskForm';
 
 
 class CreateTaskScreen extends Component {
-    static navigationOptions = {
-        title: 'Create new task',
+    static navigationOptions = ({ navigation }) => {
+        //title: `Welcome ${navigation.state.params}`,
+        return {
+            title: navigation.state.params ? 'Task detail' : 'Create new task',
+        }
     };
 
     constructor(props) {
@@ -19,14 +22,14 @@ class CreateTaskScreen extends Component {
             start: "",
             effort: "",
             done: "",
-            users: [],
-            // usersRotation: [],
+            // users: [],
+            usersRotation: [],
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
     handleFormSubmit(value) {
-        console.log("CREATE TASK SCREEN");
+        console.log("CREATE TASK SCREEN submit -------");
         console.log(value);
         this.setState(
             {
@@ -36,22 +39,40 @@ class CreateTaskScreen extends Component {
                 start: value.start,
                 effort: value.effort,
                 done: value.done,
-                users: value.users,
-                // usersRotation: value.usersRotation,
+                // users: value.users,
+                usersRotation: value.usersRotation,
             });
     }
 
+    setUsersRotationObject(task) {
+        const users = task.usersRotation;
+        const roommates = this.props.roommates;
+        // console.log(roommates);
+        let usersRotation = [];
+        users.map(user => { usersRotation.push(roommates.filter(roomie => roomie.nickname === user)); });
+        // console.log('set USERS ROTATION obj');
+        // console.log(usersRotation);
+        // task.users = usersRotation;
+        task.usersRotation = usersRotation;
+        return task;
+    }
+
     getTaskById(id) {
-        const task = this.props.tasks.filter(task => task.id === id);
+        let task = this.props.tasks.filter(task => task.id === id);
         if (task) {
-            return task[0];
+            console.log('GET TASK by ID');
+            // console.log(task);
+            task = this.setUsersRotationObject(task[0]);
+            console.log(task);
+            return task;
         }
     }
 
     render() {
+        console.log('create task screen RENDER');
         // console.log('this.state');
         // console.log(this.state);
-        // console.log(this.props.navigation.state);
+        console.log(this.props.navigation.state);
         let {roommates} = this.props;
         // console.log('ROOMMATES');
         // console.log(roommates);
@@ -61,6 +82,8 @@ class CreateTaskScreen extends Component {
         }
 
         const id = this.props.navigation.state.params ? this.props.navigation.state.params.id : null;
+        console.log('Task ID ------');
+        console.log(id);
         let task = id ? this.getTaskById(id) : null;
         // console.log('Just for debug');
         // console.log(task);
@@ -99,6 +122,8 @@ const { container } = styles;
 
 /* Bind the Store's state to CreateTaskScreen props */
 function mapStateToProps(state) {
+    console.log('CREATE task SCREEN state ---');
+    console.log(state);
     return {
         tasks: state.taskData.tasks,
         roommates: state.usersData.users,
