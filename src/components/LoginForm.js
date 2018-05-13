@@ -1,9 +1,10 @@
 import t from 'tcomb-form-native';
 import React, { Component } from 'react';
-import { Text, StyleSheet, TouchableHighlight, View } from 'react-native';
+import { Text, TouchableHighlight, View } from 'react-native';
+import styles from './../styles';
 
 /*
-User login struct:
+User login Struct:
     - nickname (input text)
     - password (input text)
 */
@@ -82,41 +83,14 @@ export default class LoginForm extends Component {
         }
         
         return (
-            <View style={container}>
+            <View style={loginFormContainer}>
                 {this.createForm()}
-                <TouchableHighlight style={button} onPress={this.handleSubmit} underlayColor='#99d9f4'>
-                    <Text style={buttonText}>Sign in!</Text>
+                <TouchableHighlight style={loginFormButton} onPress={this.handleSubmit} underlayColor='#99d9f4'>
+                    <Text style={loginFormButtonText}>Sign in!</Text>
                 </TouchableHighlight>
             </View>
         )
     }
 }
 
-/* Define some CSS rules for this component */
-const styles = StyleSheet.create({
-    container: {
-        justifyContent: 'center',
-        marginTop: 20,
-        marginLeft: 10,
-        marginRight: 10,
-        padding: 20,
-        backgroundColor: '#ffffff',
-    },
-    button: {
-        height: 36,
-        backgroundColor: '#48BBEC',
-        borderColor: '#48BBEC',
-        borderWidth: 1,
-        borderRadius: 8,
-        marginBottom: 10,
-        alignSelf: 'stretch',
-        justifyContent: 'center'
-    },
-    buttonText: {
-        fontSize: 18,
-        color: 'white',
-        alignSelf: 'center'
-    }
-});
-
-const { container, button, buttonText } = styles;
+const { loginFormContainer, loginFormButton, loginFormButtonText } = styles;

@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
-import { Button, Text, View, StyleSheet, AsyncStorage } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
 import React, { Component } from 'react';
 import { LogInUser } from './../Actions/FetchUsers';
-import LoginForm from "../components/LoginForm";
+import LoginForm from '../components/LoginForm';
+import styles from './../styles';
 
 
 class SignInScreen extends Component {
@@ -16,8 +17,8 @@ class SignInScreen extends Component {
         
         this.state = {
             currentUser: null,
-            nickname: "",
-            password: "",
+            nickname: '',
+            password: '',
             hasError: false,
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -33,7 +34,7 @@ class SignInScreen extends Component {
     }
     
     handleFormSubmit(value) {
-        console.log("CREDENTIALS SUBMIT");
+        console.log('CREDENTIALS SUBMIT');
         console.log(value);
         this._signInAsync(value.nickname, value.password);
     }
@@ -43,13 +44,13 @@ class SignInScreen extends Component {
         // await AsyncStorage.setItem('currentUserID', '1234');
         const currentUserID = await AsyncStorage.getItem('currentUserID');
         console.log(currentUserID);
-        console.log("Dispatch log in");
+        console.log('Dispatch log in');
         
         const bypassLogin = false;
         
         this.props.LogInUser(nickname, password)
             .then((user) => {
-                console.log("User login success!!");
+                console.log('User login success!!');
                 console.log(user);
                 // console.log(this.props);
                 // AsyncStorage.setItem('currentUserID', user.id);
@@ -59,7 +60,7 @@ class SignInScreen extends Component {
                 this.navigateToApp();
             })
             .catch(error => {
-                console.log("Failed to log-in");
+                console.log('Failed to log-in');
                 console.log(error);
 
                 this.setHasError(true);
@@ -77,7 +78,7 @@ class SignInScreen extends Component {
     
     render() {
         return (
-            <View style={styles.container}>
+            <View style={styles.loginFormContainer}>
                 <LoginForm
                     hasError={this.state.hasError}
                     onFormSubmit={this.handleFormSubmit}/>
@@ -85,35 +86,6 @@ class SignInScreen extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        justifyContent: 'center',
-        marginTop: 20,
-        marginLeft: 10,
-        marginRight: 10,
-        padding: 20,
-        backgroundColor: '#ffffff',
-    },
-    button: {
-        height: 36,
-        backgroundColor: '#48BBEC',
-        borderColor: '#48BBEC',
-        borderWidth: 1,
-        borderRadius: 8,
-        marginBottom: 10,
-        alignSelf: 'stretch',
-        justifyContent: 'center'
-    },
-    buttonText: {
-        fontSize: 18,
-        color: 'white',
-        alignSelf: 'center'
-    },
-    paddingVertical: {
-        paddingVertical: 20
-    }
-});
 
 function mapStateToProps(state) {
     return {}

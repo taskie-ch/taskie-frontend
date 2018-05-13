@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { userIcon, starIcon } from '../Utils/Icons';
+import styles from './../styles';
 
 export default RoommateScoreCard = ({ id, nickname, score}) => {
-    
-    
-    renderStars = () => {
+
+    const renderStars = () => {
         let children = [];
         for (let i = 0; i < score; i++) {
                 children.push(<Image style={starIconStyle} source={starIcon}/>);
@@ -14,78 +14,32 @@ export default RoommateScoreCard = ({ id, nickname, score}) => {
     };
     
     return (
-        <View key={id} style={container}>
+        <View key={id} style={[shadowStyle, taskCardContainer]}>
             <View style={upperRow}>
                 <Image
                     style={profileIcon}
                     source={userIcon}
                 />
-                <Text></Text>
-                {/*<View style={starIconStyleContainer}>*/}
-                {this.renderStars()}
-                {/*</View>*/}
+                <View style={starIconStyleContainer}>
+                    {renderStars()}
+                </View>
             </View>
             <View style={lowerRow}>
-                <Text style={userNickname}>{score ? score : 0} stars</Text>
-                <Text style={userNickname}>{nickname ? nickname : 'T'}</Text>
+                <Text style={taskAssignee}>{nickname ? nickname : 'T'}</Text>
+                <Text style={scoreStyle}>{score ? score : 0} stars</Text>
             </View>
         </View>
     );
 };
 
-/* Define some CSS rules for RoommateScoreCard component elements */
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        marginBottom: 20,
-        borderBottomColor: "#e5e5e5",
-        borderBottomWidth: 3,
-        padding: 20
-    },
-    upperRow: {
-        flex: 1,
-        flexDirection: 'row',
-        height: 20,
-        marginBottom: 10
-    },
-    lowerRow: {
-        flex: 1,
-        flexDirection: 'row',
-        paddingLeft: 35
-    },
-    profileIcon: {
-        width: 35,
-        height: 35,
-        marginRight: 20,
-    },
-    userNickname: {
-        marginTop: 5,
-        marginLeft: 20,
-        width: 'auto',
-        height: 20,
-        fontWeight: 'bold',
-    },
-    starIconStyleContainer: {
-        width: 50,//'100%',//80,
-        // height: 20,//80,
-        marginLeft: 10,
-    },
-    starIconStyle: {
-        width: 20,//80,
-        height: 20,//80,
-        paddingLeft: 10,
-        paddingRight: 10
-    },
-});
-
 const {
-    container,
+    shadowStyle,
+    taskCardContainer,
     upperRow,
     lowerRow,
     profileIcon,
-    userNickname,
+    scoreStyle,
+    taskAssignee,
     starIconStyleContainer,
     starIconStyle,
 } = styles;
