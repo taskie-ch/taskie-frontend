@@ -17,14 +17,15 @@ class HomeScreen extends Component {
         super(props);
     
         console.log('HOME props ------');
-        console.log(this.props);
+        // console.log(this.props);
         const {currentUser} = this.props;
         const {roommates} = this.props;
         // const {tasks} = this.props;
         console.log(currentUser);
-        console.log(this.props);
-        AsyncStorage.setItem('currentUserNickname', currentUser ? currentUser.nickname : '');
-        AsyncStorage.setItem('currentUserScore', currentUser ? currentUser.score : 'NaN');
+        // console.log(this.props);
+        AsyncStorage.setItem('currentUserID', currentUser ? currentUser.id : 'NaN');
+        AsyncStorage.setItem('currentUserNickname', currentUser ? currentUser.nickname : 'NaN');
+        AsyncStorage.setItem('currentUserScore', currentUser ? currentUser.score.toString() : 'NaN');
         // AsyncStorage.setItem('roommates', roommates);
     
         // console.log(AsyncStorage.getItem('currentUser'));
@@ -46,6 +47,8 @@ class HomeScreen extends Component {
     
     renderHeader() {
         const currentUser = this.props.currentUser;
+        console.log('current user score');
+        console.log(AsyncStorage.getItem('currentUserID'));
         let score = currentUser ? currentUser.score : 'score';
         
         const {tabSelected} = this.state;
@@ -81,7 +84,7 @@ class HomeScreen extends Component {
                 <TaskContainer navigator={this.props.navigation}/>
                 }
                 {this.state.tabSelected === 'HoF' &&
-                <HallOfFameContainer>asf</HallOfFameContainer>
+                <HallOfFameContainer>HoF container</HallOfFameContainer>
                 }
             </View>
         );
@@ -91,6 +94,18 @@ class HomeScreen extends Component {
 function mapStateToProps(state) {
     console.log('HOME SCREEN state ---');
     console.log(state);
+    // let currentUser = state.usersData.currentUser;
+    //     currentUser.then(currentUser => {
+    //     // Get the logged in user.
+    //     console.log('currentUser HOME SCREEN ----');
+    //     console.log(currentUser);
+    //     // Set the user ID in localStorage.
+    //     AsyncStorage.setItem('currentUserID', currentUser.id);
+    //     // return dispatch({
+    //     //     type: USER_LOGGED_IN,
+    //     //     currentUser: currentUser,
+    //     // });
+    // });
     
     // this.props.FetchTasks();
     return {
