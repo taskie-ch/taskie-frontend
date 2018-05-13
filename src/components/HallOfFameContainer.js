@@ -1,23 +1,86 @@
 import Spinner from 'react-native-loading-spinner-overlay';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, TouchableHighlight, View } from 'react-native';
 
 import { FetchUsers } from './../Actions/FetchUsers';
 import RoommateScoreCard from './RoommateScoreCard';
+import styles from './../styles';
 
 
 class HallOfFameContainer extends Component {
+    
+    constructor(props) {
+        console.log('HoF PROPS');
+        console.log(props);
+        super(props);
+        const {roommates} = this.props;
+        // const usersRotation = this.resetRoommates(roommates);
+        // console.log(usersRotation);
+        
+        this.state = {
+            roommates: roommates,
+        };
+        
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+    /* 'Reset ranking' submit function */
+    handleSubmit() {
+        // Save the Task instance as 'value'.
+        // let value = this._form.getValue();
+        
+        // Get the usersRotation's ID order.
+        // let usersID = [];
+        // const sorted = this.state.sorted.slice();
+        // sorted.map(item => { usersID.push(item.id); });
+        const {roommates} = this.props;
+        
+        // If validation fails, value will be null.
+        if (roommates) {
+            this.resetRoommates(roommates);
+            // value = {
+            //     title: value.title,
+            //     frequency: value.frequency,
+            //     start: value.start,
+            //     effort: value.effort,
+            //     usersRotation: usersID,
+            // };
+            // The onFormSubmit function was passed down as a prop from App.js
+            this.props.onFormSubmit(roommates);
+        }
+    }
 
     componentDidMount() {
         this.props.FetchUsers();
+    }
+    
+    resetRoommates(roommates) {
+        // Set all usersRotation's roomies isEnabled back to true.
+        let usersRotation = [];
+        roommates.map(roomie => {
+            roomie = {
+                id: roomie ? roomie.id : null,
+                nickname: roomie ? roomie.nickname : null,
+                score: 0,
+                isEnabled: true,
+            };
+            usersRotation.push(roomie);
+        });
+        
+        this.setState({
+            ...this.state,
+            roommates: usersRotation,
+        });
+        
+        return usersRotation;
     }
 
     renderRoomateScoreCards() {
         const users = this.props.users;
         
         return users.map(user => {
-            console.log('USER');
+            console.log('USER Score card');
             console.log(user);
                 return <RoommateScoreCard
                     key={`${user.id}`}
@@ -31,7 +94,6 @@ class HallOfFameContainer extends Component {
 
     render() {
         const {users} = this.props;
-        const {contentContainer} = styles;
     
         if (users.isFetching) {
             return (
@@ -47,23 +109,21 @@ class HallOfFameContainer extends Component {
         }
 
         return (
-            <ScrollView style={ contentContainer }>
-                {this.renderRoomateScoreCards()}
+            <ScrollView style={styles.taskContainerBody}>
+                <View style={{flex: 1, flexDirection: 'column',}}>
+                    {this.renderRoomateScoreCards()}
+                </View>
+                <TouchableHighlight style={styles.hofButton} onPress={this.handleSubmit} underlayColor='#99d9f4'>
+                    <Text style={styles.hofButtonText}>{'Reset ranking'}</Text>
+                </TouchableHighlight>
             </ScrollView>
         )
     }
 }
 
-const styles = {
-    contentContainer: {
-        paddingBottom: 100,
-        marginTop: 70,
-    }
-};
-
 function mapStateToProps(state) {
     
-    console.log('STATE');
+    console.log('HoF STATE ------');
     console.log(state);
     return {
         users: state.usersData.users
