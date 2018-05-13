@@ -13,13 +13,11 @@ import { AsyncStorage } from "react-native";
 
 export function FetchUsers() {
     return dispatch => {
-        
+
         // dispatch({ type: FETCHING_USERS });
-        
+
         return axios.get(`${apiBaseURL}/hof`)
             .then(res => {
-                // console.log('FETCHING_USERS_SUCCESS res --');
-                // console.log(res);
                 return dispatch({type: FETCHING_USERS_SUCCESS, payload: res.data});
             })
             .catch(err => {
@@ -45,14 +43,18 @@ export function LogInUser(nickname, password) {
         // Send login/authentication request.
         return fetch(url, { method: 'POST', headers: headers })
             .then(async response => {
-                // console.log('USER_LOGGED_IN res --');
-                // console.log(response.status);
+
+                // Get the logged in user.
                 response.json().then(currentUser => {
-                    // Get the logged in user.
-                    console.log('currentUser ----');
+                    console.log('LogInUser success');
                     console.log(currentUser);
+                    console.log(currentUser.nickname);
+
                     // Set the user ID in localStorage.
                     AsyncStorage.setItem('currentUserID', currentUser.id);
+                    AsyncStorage.setItem('currentUserNickname', currentUser.nickname);
+                    AsyncStorage.setItem('currentUserScore', currentUser.score.toString());
+
                     return dispatch({
                         type: USER_LOGGED_IN,
                         currentUser: currentUser,

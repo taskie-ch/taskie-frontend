@@ -1,5 +1,4 @@
 import {
-    
     FETCHING_USERS,
     FETCHING_USERS_SUCCESS,
     FETCHING_USERS_FAIL,
@@ -29,32 +28,28 @@ const initialState = {
     errorMessage: null,
 };
 
-// function guid() {
-//     function s4() {
-//         return Math.floor((1 + Math.random()) * 0x10000)
-//             .toString(16)
-//             .substring(1);
-//     }
-//
-//     return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
-// }
-
 export default function (state = initialState, action) {
-    
-    // Just to bypass loging in a user each time this app saves a change...
+
+    // Just to bypass logging in a user each time this app saves a change...
     const demoUser = {
-        id: "2b95993380f8be6bd4bd46bf44f98db9",
+        id: '2b95993380f8be6bd4bd46bf44f98db9',
         nickname: 'Jane',
         score: 6,
     };
     console.log('user reducer');
-    console.log(state.currentUser);
-    console.log(AsyncStorage.getItem('currentUserID'));
-    let currentUser = state.currentUser ? state.currentUser : AsyncStorage.getItem('currentUserID');
+    // console.log(state.currentUser);
+    // console.log(AsyncStorage.getItem('currentUserID'));
+    const currentUserID = AsyncStorage.getItem('currentUserID');
+    // console.log('currentUserID instanceof Promise');
+    // console.log(currentUserID instanceof Promise);
+    let currentUser = currentUserID instanceof Promise ? state.currentUser : {
+        id: currentUserID,
+        nickname: AsyncStorage.getItem('currentUserNickname'),
+        score: AsyncStorage.getItem('currentUserScore'),
+    };
+    // console.log(currentUser);
+    currentUser = currentUser !== null ? currentUser : demoUser;
     console.log(currentUser);
-    currentUser = currentUser.id ? currentUser : demoUser;
-    console.log(currentUser);
-    state.currentUser = currentUser;
     
     switch (action.type) {
         case USER_LOGGING_IN:
@@ -66,6 +61,7 @@ export default function (state = initialState, action) {
         case USER_LOGGED_IN:
             // console.log('USER_LOGGED_IN');
             // console.log(action.currentUser);
+            // console.log(currentUser);
             currentUser = action.currentUser;
             return Object.assign({}, state, {
                 ...state,
@@ -74,9 +70,6 @@ export default function (state = initialState, action) {
             });
 
         case FETCHING_USERS:
-            // console.log('FETCHING_USERS');
-            // console.log(action);
-            
             return Object.assign({}, state, {
                 ...state,
                 isFetching: true,
@@ -88,13 +81,14 @@ export default function (state = initialState, action) {
             });
 
         case FETCHING_USERS_SUCCESS:
-            // console.log('FETCHING_USERS_SUCCESS');
+            console.log('FETCHING_USERS_SUCCESS');
             // console.log(action.payload);
+            console.log(currentUser);
     
             return Object.assign({}, state, {
                 ...state,
                 isFetching: false,
-                currentUser: currentUser,
+                currentUser: state.currentUser ? state.currentUser : currentUser,
                 users: action.payload,
                 // users: state.users,
                 hasError: false,
@@ -105,7 +99,7 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 ...state,
                 isFetching: false,
-                currentUser: currentUser,
+                currentUser: state.currentUser ? state.currentUser : currentUser,
                 users: action.payload,
                 // users: state.users,
                 hasError: true,

@@ -41,22 +41,26 @@ class SignInScreen extends Component {
     
     _signInAsync = async (nickname, password) => {
         console.log("Signin in: " + nickname);
-        // await AsyncStorage.setItem('currentUserID', '1234');
         const currentUserID = await AsyncStorage.getItem('currentUserID');
-        console.log(currentUserID);
-        console.log('Dispatch log in');
+        console.log('Dispatch log in ' + currentUserID);
         
         const bypassLogin = false;
         
         this.props.LogInUser(nickname, password)
-            .then((user) => {
+            .then(async () => {
                 console.log('User login success!!');
-                console.log(user);
-                // console.log(this.props);
-                // AsyncStorage.setItem('currentUserID', user.id);
-                const currentUser = AsyncStorage.getItem('currentUserID');
-                console.log(currentUser);
-                // this.setCurrentUser(user.userToken, user.nickname, user.score);
+                const localCurrentUserID = await AsyncStorage.getItem('currentUserID');
+                console.log('localCurrentUserID ' + localCurrentUserID);
+                if (localCurrentUserID instanceof Promise) {
+                    localCurrentUserID.then(currentUserID => {
+                        console.log('LogInUser success currentUserID ' + currentUserID);
+        
+                        // Set the user ID in localStorage.
+                        AsyncStorage.setItem('currentUserID', currentUserID);
+                        // AsyncStorage.setItem('currentUserNickname', currentUser.nickname);
+                        // AsyncStorage.setItem('currentUserScore', currentUser.score.toString());
+                    });
+                }
                 this.navigateToApp();
             })
             .catch(error => {

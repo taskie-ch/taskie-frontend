@@ -17,19 +17,11 @@ class HomeScreen extends Component {
         super(props);
     
         console.log('HOME props ------');
-        // console.log(this.props);
         const {currentUser} = this.props;
         const {roommates} = this.props;
         // const {tasks} = this.props;
         console.log(currentUser);
-        // console.log(this.props);
-        AsyncStorage.setItem('currentUserID', currentUser ? currentUser.id : 'NaN');
-        AsyncStorage.setItem('currentUserNickname', currentUser ? currentUser.nickname : 'NaN');
-        AsyncStorage.setItem('currentUserScore', currentUser ? currentUser.score.toString() : 'NaN');
-        // AsyncStorage.setItem('roommates', roommates);
-    
-        // console.log(AsyncStorage.getItem('currentUser'));
-        // console.log(AsyncStorage.getItem('roommates'));
+
         this.state = {
             tabSelected: 'Overview',
             currentUser: currentUser,
@@ -48,7 +40,7 @@ class HomeScreen extends Component {
     renderHeader() {
         const currentUser = this.props.currentUser;
         console.log('current user score');
-        console.log(AsyncStorage.getItem('currentUserID'));
+        console.log(currentUser);
         let score = currentUser ? currentUser.score : 'score';
         
         const {tabSelected} = this.state;
@@ -92,8 +84,8 @@ class HomeScreen extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('HOME SCREEN state ---');
-    console.log(state);
+    // console.log('HOME SCREEN state ---');
+    // console.log(state);
     // let currentUser = state.usersData.currentUser;
     //     currentUser.then(currentUser => {
     //     // Get the logged in user.
@@ -115,12 +107,12 @@ function mapStateToProps(state) {
     }
 }
 
-// const mapDispatchToProps = {
-//     FetchUsers,
-//     // FetchTasks,
-// };
+const mapDispatchToProps = {
+    FetchUsers,
+    FetchTasks,
+};
 
-// export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
 
 // export default connect(mapStateToProps, { FetchUsers, FetchTasks })(HomeScreen)
-export default connect(mapStateToProps, { FetchUsers })(HomeScreen)
+// export default connect(mapStateToProps, { FetchUsers })(HomeScreen)
