@@ -18,8 +18,8 @@ export function FetchUsers() {
         
         return axios.get(`${apiBaseURL}/hof`)
             .then(res => {
-                console.log('FETCHING_USERS_SUCCESS res --');
-                console.log(res);
+                // console.log('FETCHING_USERS_SUCCESS res --');
+                // console.log(res);
                 return dispatch({type: FETCHING_USERS_SUCCESS, payload: res.data});
             })
             .catch(err => {
@@ -45,8 +45,8 @@ export function LogInUser(nickname, password) {
         // Send login/authentication request.
         return fetch(url, { method: 'POST', headers: headers })
             .then(async response => {
-                console.log('USER_LOGGED_IN res --');
-                console.log(response.status);
+                // console.log('USER_LOGGED_IN res --');
+                // console.log(response.status);
                 response.json().then(currentUser => {
                     // Get the logged in user.
                     console.log('currentUser ----');

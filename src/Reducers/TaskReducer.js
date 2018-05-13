@@ -2,6 +2,9 @@ import {
     FETCHING_TASKS,
     FETCHING_TASKS_SUCCESS,
     FETCHING_TASKS_FAIL,
+    POSTING_TASK,
+    POSTING_TASK_SUCCESS,
+    POSTING_TASK_FAIL,
 } from './../Utils/ActionTypes';
 
 const initialState = {
@@ -12,8 +15,8 @@ const initialState = {
         effort: 1,
         frequency: 'DAILY',
         start: new Date().setFullYear(2018,4,9),
-        // users: ['Jane', 'Tom', 'Joe'],
-        usersRotation: ['Alice', 'Bob', 'Chris', 'Dave'],
+        usersRotation: ['Jane', 'Tom', 'Joe'],
+        // usersRotation: ['Alice', 'Bob', 'Chris', 'Dave'],
     },
         {
         id: '1234',
@@ -51,6 +54,8 @@ export default function (state = initialState, action) {
     switch (action.type) {
 
         case FETCHING_TASKS:
+            // console.log('FETCHING_TASKS');
+            // console.log(action.payload);
             return Object.assign({}, state, {
                 ...state,
                 isFetching: true,
@@ -60,8 +65,8 @@ export default function (state = initialState, action) {
             });
 
         case FETCHING_TASKS_SUCCESS:
-            console.log('FETCHING_TASKS_SUCCESS');
-            console.log(action.payload);
+            // console.log('FETCHING_TASKS_SUCCESS');
+            // console.log(action.payload);
             // Create a list of tasks with an ID.
             // const tasks = action.payload.map((task) => {
             // const tasks = state.tasks.map((task) => {
@@ -83,7 +88,44 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 ...state,
                 isFetching: false,
-                tasks: action.payload,
+                tasks: action.payload,//
+                // tasks: state.tasks,
+                hasError: true,
+                errorMessage: action.err
+            });
+
+        case POSTING_TASK:
+            // console.log('POSTING_TASK');
+            // console.log(action);
+            return Object.assign({}, state, {
+                ...state,
+                isFetching: true,
+                tasks: state.tasks,
+                hasError: false,
+                errorMessage: null
+            });
+
+        case POSTING_TASK_SUCCESS:
+            // console.log('POSTING_TASK_SUCCESS');
+            // console.log(action.payload);
+
+            return Object.assign({}, state, {
+                ...state,
+                isFetching: false,
+                // tasks: action.payload,
+                tasks: state.tasks,
+                hasError: false,
+                errorMessage: null
+            });
+
+        case POSTING_TASK_FAIL:
+            // console.log('POSTING_TASK_FAIL');
+            // console.log(action.payload);
+            return Object.assign({}, state, {
+                ...state,
+                isFetching: false,
+                // tasks: action.payload,//
+                tasks: state.tasks,
                 hasError: true,
                 errorMessage: action.err
             });

@@ -40,7 +40,22 @@ const initialState = {
 // }
 
 export default function (state = initialState, action) {
-
+    
+    // Just to bypass loging in a user each time this app saves a change...
+    const demoUser = {
+        id: "2b95993380f8be6bd4bd46bf44f98db9",
+        nickname: 'Jane',
+        score: 6,
+    };
+    console.log('user reducer');
+    console.log(state.currentUser);
+    console.log(AsyncStorage.getItem('currentUserID'));
+    let currentUser = state.currentUser ? state.currentUser : AsyncStorage.getItem('currentUserID');
+    console.log(currentUser);
+    currentUser = currentUser.id ? currentUser : demoUser;
+    console.log(currentUser);
+    state.currentUser = currentUser;
+    
     switch (action.type) {
         case USER_LOGGING_IN:
             return Object.assign({}, state, {
@@ -49,19 +64,19 @@ export default function (state = initialState, action) {
             });
         
         case USER_LOGGED_IN:
-            console.log('USER_LOGGED_IN');
-            console.log(action.currentUser);
+            // console.log('USER_LOGGED_IN');
+            // console.log(action.currentUser);
+            currentUser = action.currentUser;
             return Object.assign({}, state, {
                 ...state,
-                currentUser: action.currentUser,
+                currentUser: currentUser,
                 isLoggingIn: false,
             });
 
         case FETCHING_USERS:
-            console.log('FETCHING_USERS');
-            console.log(action);
+            // console.log('FETCHING_USERS');
+            // console.log(action);
             
-            const currentUser = state.currentUser ? state.currentUser : AsyncStorage.getItem('currentUserID');
             return Object.assign({}, state, {
                 ...state,
                 isFetching: true,
@@ -73,12 +88,13 @@ export default function (state = initialState, action) {
             });
 
         case FETCHING_USERS_SUCCESS:
-            console.log('FETCHING_USERS_SUCCESS');
-            console.log(action.payload);
-            
+            // console.log('FETCHING_USERS_SUCCESS');
+            // console.log(action.payload);
+    
             return Object.assign({}, state, {
                 ...state,
                 isFetching: false,
+                currentUser: currentUser,
                 users: action.payload,
                 // users: state.users,
                 hasError: false,
@@ -89,6 +105,7 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 ...state,
                 isFetching: false,
+                currentUser: currentUser,
                 users: action.payload,
                 // users: state.users,
                 hasError: true,
