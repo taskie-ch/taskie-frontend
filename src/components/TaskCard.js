@@ -1,103 +1,110 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+    View, Text, Image, TouchableOpacity, Button, TouchableHighlight,
+} from 'react-native';
 import { userIcon } from '../Utils/Icons';
+import styles from './../styles';
 
 
-export default TaskCard = ({ id, title, frequency, start, effort, done, user, taskCardPressed}) => {
+export default TaskCard = ({ id, title, start, done, user, currentUser, taskCardPressed, taskDone, taskSkip, taskIWillDoIt}) => {
+    const dateNow = new Date(new Date().setHours(0, 0, 0, 0));
+    const dateDue = new Date(start);
+    const DateDiff = require('date-diff');
+    const diff = new DateDiff(dateNow, dateDue);
+    console.log('current user');
+    console.log(currentUser);
+    console.log(user);
+
+    const renderBotton = (rowLevel) => {
+        const isCurrentUser = user === currentUser.nickname.toUpperCase();
+        const isExpired = diff.days() > 0;
+
+        let buttonStyle = null;
+        let buttonTitle = null;
+        let onButtonPressed = null;
+        switch (rowLevel) {
+            case 'upper':
+                if (isExpired && isCurrentUser) {
+                    // ios
+                    buttonStyle = [taskCardButton, {flex: 0.63, flexDirection: 'row', backgroundColor: '#ec4f69',}];
+                    buttonTitle = 'Skip';
+                    onButtonPressed = taskSkip;
+                } else if (!isExpired && isCurrentUser) {
+                    buttonStyle = null;
+                    buttonStyle = null;
+                    onButtonPressed = null;
+                } else {
+                    buttonStyle = [taskCardButton, {flex: 0.63, flexDirection: 'row', backgroundColor: '#ecad47',}];
+                    buttonTitle = 'Remind';
+                    onButtonPressed = taskDone;
+                }
+                break;
+            case 'lower':
+                if (isCurrentUser) {
+                    buttonStyle = [taskCardButton, {backgroundColor: '#44a255',}];
+                    buttonTitle = 'Done';
+                    onButtonPressed = taskDone;
+                } else {
+                    buttonStyle = [taskCardButton, {backgroundColor: '#44a255',}];
+                    buttonTitle = "I'll do it!";
+                    onButtonPressed = taskIWillDoIt;
+                }
+                break;
+            default:
+                buttonStyle = taskCardButton;
+                buttonTitle = 'Done';
+                onButtonPressed = taskDone;
+        }
+        
+        if (buttonStyle && buttonTitle) {
+    
+            return (
+                <TouchableHighlight style={buttonStyle} onPress={onButtonPressed} underlayColor='#99d9f4'>
+                    <Text style={taskCardButtonText}>{buttonTitle}</Text>
+                </TouchableHighlight>
+            );
+        } else {
+            return '';
+        }
+    };
+        
+        
+        {/*<TouchableWithoutFeedback style={[taskCardButton, {backgroundColor: '#44a255',}]} onPress={onButtonPressed} underlayColor='#99d9f4' disabled>*/}
+    {/*/!*<Text style={taskCardButtonText}>{'Done'}</Text>*!/*/}
+    {/*<Text> </Text>*/}
+    {/*</TouchableWithoutFeedback>}*/}
+    
     return (
-        <TouchableOpacity key={id} style={container} onPress={ taskCardPressed }>
+        <TouchableOpacity key={id} style={[shadowStyle, taskCardContainer]} onPress={ taskCardPressed }>
             <View style={upperRow}>
                 <Image
                     style={profileIcon}
                     source={userIcon}
                 />
                 <Text style={taskTitle}>{title}</Text>
-                {/*<Text style={taskFrequency}>{frequency ? frequency : 'frequency'}</Text>*/}
+                {renderBotton('upper')}
+                {/*<Button style={taskCardButton} title={buttonTitle} onPress={() => this.onSubmit()}/>*/}
             </View>
             <View style={lowerRow}>
-                <Text style={taskStart}>{start ? start : 'start'}</Text>
-                {/*<Text style={taskEffort}>{effort ? effort : 'effort'}</Text>*/}
-                <Text style={taskAssagnee}>{user ? user : 'user name'}</Text>
+                <Text style={taskAssignee}>{user ? user : 'user name'}</Text>
+                {user === currentUser.nickname.toUpperCase() ?
+                <Text style={taskStart}>{start ? start : 'start'}</Text> :
+                <Text style={[taskStart, {flex: 3, flexDirection: 'row',}]}>{start ? start : 'start'}</Text>}
+                {renderBotton('lower')}
             </View>
         </TouchableOpacity>
     );
 };
 
-/* Define some CSS rules for TaskCard component elements */
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        marginBottom: 20,
-        borderBottomColor: "#e5e5e5",
-        borderBottomWidth: 3,
-        padding: 20
-    },
-    upperRow: {
-        flex: 1,
-        flexDirection: 'row',
-        height: 20,
-        marginBottom: 10
-    },
-    lowerRow: {
-        flex: 1,
-        flexDirection: 'row',
-        paddingLeft: 35
-    },
-    profileIcon: {
-        width: 35,
-        height: 35,
-    },
-    taskTitle: {
-        marginTop: 5,
-        marginLeft: 20,
-        marginRight: 5,
-        width: 'auto',
-        height: 20,
-        fontWeight: 'bold',
-    },
-    taskFrequency: {
-        marginTop: 5,
-        width: 'auto',
-        height: 20,
-        marginRight: 10,
-        fontWeight: 'bold',
-    },
-    taskStart: {
-        flex: 1,
-        marginTop: 5,
-        marginLeft: 20,
-        width: 'auto',
-        height: 20,
-        marginRight: 10,
-    },
-    taskEffort: {
-        marginTop: 5,
-        width: 'auto',
-        height: 20,
-    },
-    taskAssagnee: {
-        flex: 1,
-        textAlign: 'right',
-        marginBottom: 5,
-        // marginLeft: 10,
-        marginRight: 5,
-        width: 'auto',
-        height: 20,
-        fontWeight: 'bold',
-        fontSize: 15,
-    },
-});
-
 const {
-    container,
+    shadowStyle,
+    taskCardContainer,
     upperRow,
     lowerRow,
     profileIcon,
     taskTitle,
-    taskFrequency,
     taskStart,
-    taskEffort,
-    taskAssagnee
+    taskAssignee,
+    taskCardButton,
+    taskCardButtonText,
 } = styles;
