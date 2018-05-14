@@ -33,10 +33,7 @@ class TaskContainer extends Component {
         this.props.FetchUsers();
     }
     
-    navigateToApp = async (score, taskID, userID, promiseFunc) => {
-        const resp = await promiseFunc(taskID, userID);
-        console.log('fetch tasks resp');
-        console.log(resp);
+    navigateToApp = async (score) => {
         const res = await this.props.FetchTasks();
         console.log('fetch tasks res');
         console.log(res);
@@ -45,23 +42,29 @@ class TaskContainer extends Component {
         this.props.navigator.navigate('App');
     };
     
-    onTaskDone(task, currentUser) {
+    onTaskDone = async (task, currentUser) => {
+        console.log('onTaskDone');
+        console.log(task);
         const score = currentUser.score + task.effort;
-        this.props.DoneTask(task.id, task.usersRotation[0]);
-        this.navigateToApp(score, task.id, task.usersRotation[0], this.props.DoneTask);
-    }
+        await this.props.DoneTask(task.id, task.usersRotation[0]);
+        this.navigateToApp(score, task.id, task.usersRotation[0]);
+    };
     
-    onTaskIWillDoIt(task, currentUser) {
+    onTaskIWillDoIt = async (task, currentUser) => {
+        console.log('onTaskIWillDoIt');
+        console.log(task);
         const score = currentUser.score + task.effort;
-        this.props.DoneTask(task.id, currentUser.id);
-        this.navigateToApp(score, task.id, currentUser.id, this.props.DoneTask);
-    }
+        await this.props.DoneTask(task.id, currentUser.id);
+        this.navigateToApp(score, task.id, currentUser.id);
+    };
 
-    onTaskSkip(task, currentUser) {
+    onTaskSkip = async (task, currentUser) => {
+        console.log('onTaskSkip');
+        console.log(task);
         const score = currentUser.score - task.effort;
-        this.props.SkipTask(task.id, task.usersRotation[0]);
-        this.navigateToApp(score, task.id, task.usersRotation[0], this.props.SkipTask);
-    }
+        await this.props.SkipTask(task.id, task.usersRotation[0]);
+        this.navigateToApp(score, task.id, task.usersRotation[0]);
+    };
 
     onTaskCardPressed(id) {
         this.props.navigator.navigate('CreateTask', {id: id});
@@ -71,20 +74,8 @@ class TaskContainer extends Component {
         const currentUser = this.props.currentUser;
         const roommates = this.props.roommates;
         let tasks = this.props.tasks;
-        // console.log('RENDER TASK CARD');
-        // console.log(this.props);
-        // console.log(tasks);
         tasks = (tasks.length > 0) ? tasks.sort(function(task1, task2){return new Date(task1.start) - new Date(task2.start)}) : [];
         return tasks.map(task => {
-            // console.log('renderTaskCards render return');
-            // // console.log(task);
-            // console.log(task.usersRotation[0]);
-            // console.log('Roommates');
-            // console.log(roommates);
-            // console.log('Roommates');
-            // console.log(currentUser);
-            // const currentUser = currentUser ? currentUser : roommates[0];
-            // console.log(currentUser);
             const user = roommates.filter(roomie => roomie.id === task.usersRotation[0]);
             return <TaskCard
                 key={`${task.id}`}
