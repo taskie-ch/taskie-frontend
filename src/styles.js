@@ -97,11 +97,21 @@ const styles = StyleSheet.create({
         fontSize: Platform.OS === 'ios' ? 35 : 55,
     },
     headerXIcon: {
-        width: Platform.OS === 'ios' ? 7 : 50,//70, // android1
-        height: Platform.OS === 'ios' ? 15 : 45,//75, // android1
-        paddingRight: 10,
-        paddingLeft: 10,
-        marginBottom: 5,
+        resizeMode: 'contain',
+        ...Platform.select({
+            ios: {
+                // backgroundColor: 'red',
+                // ios
+                width: 25,
+                height: 25,
+            },
+            android: {
+                // backgroundColor: 'blue',
+                // android2
+                width: 50,
+                height: 45,
+            },
+        }),
     },
     headerStarIcon: {
         width: Platform.OS === 'ios' ? 30 : 60,//80, // android1

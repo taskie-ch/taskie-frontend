@@ -13,18 +13,23 @@ const Header = ({currentUser, score, onCreateTaskPressed, onTabPressed, tabSelec
     
     console.log('currentUser in HEADER');
     console.log(currentUser);
+    const renderHeaderIcons = (score) => {
+        return(
+            <Text style={headerContent}>
+                {score !== null ? score : '3'}
+                <Text> </Text>
+                <Image style={headerXIcon} source={xSign}/>
+                <Text> </Text>
+                <Image style={headerStarIcon} source={starIcon}/>
+            </Text>
+        );
+    };
 
     return (
         <View style={headerContainer}>
             <View style={headerContainer}>
                 <Text style={headerTitle}>{currentUser ? currentUser.nickname : 'NM'}'s Score</Text>
-                <Text style={headerContent}>
-                    {score !== null ? score : '3'}
-                    <Text> </Text>
-                    <Image style={headerXIcon} source={xSign}/>
-                    <Text> </Text>
-                    <Image style={headerStarIcon} source={starIcon}/>
-                </Text>
+                {renderHeaderIcons(score)}
             </View>
 
             <View style={headerButton}>

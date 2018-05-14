@@ -25,12 +25,20 @@ class SignInScreen extends Component {
     }
     
     setCurrentUser(cuID, cuNickname, cuScore) {
-        this.state.currentUser = {id: cuID, nickname: cuNickname, score: cuScore};
+        this.setState({
+            currentUser: {
+                id: cuID,
+                nickname: cuNickname,
+                score: cuScore,
+            }
+        });
     }
     
     setHasError(hasError) {
         console.log('setting hasError');
-        this.state.hasError = hasError;
+        this.setState({
+            hasError: hasError,
+        });
     }
     
     handleFormSubmit(value) {
