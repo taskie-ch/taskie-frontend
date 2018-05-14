@@ -7,71 +7,36 @@ import styles from './../styles';
 
 export default class SortableForm extends Component {
     
-    popItemIntoUnsortedList(item) {
+    popItems(item) {
         const unsorted = this.props.unsorted.slice();
         const sorted = this.props.sorted.slice();
-        item.isEnabled = !item.isEnabled;
-        this.popIntoOtherList(item, sorted, unsorted);
+        if (item.isEnabled) {
+            this.popIntoOtherList(item, sorted, unsorted);
+        } else {
     
-        if (this.props.onSortChange) {
-            this.props.onSortChange({
-                unsorted: unsorted,
-                sorted: sorted
-            })
+            this.popIntoOtherList(item, unsorted, sorted);
         }
-    }
-    
-    popItemIntoSortedList(item) {
-        const unsorted = this.props.unsorted.slice();
-        const sorted = this.props.sorted.slice();
-        item.isEnabled = !item.isEnabled;
-        this.popIntoOtherList(item, unsorted, sorted);
         
-        if (this.props.onSortChange) {
-            this.props.onSortChange({
-                unsorted: unsorted,
-                sorted: sorted
-            })
-        }
+        this.props.onSortChange({
+            unsorted: unsorted,
+            sorted: sorted
+        });
     }
     
     popIntoOtherList(item, fromList, toList) {
-        const fromIndex = fromList.indexOf(item);
-        const toIndex = fromList.indexOf(item);
-        // console.log('ITEM');
-        // console.log(item);
-        // console.log(index);
-        fromList.splice(fromIndex, 1);
-        toList.splice(fromIndex, 1);
-        // toList.push(item);
-        if (item.isEnabled) {
-            fromList = fromList.reverse();
-            // toList = toList.reverse();
-            let nextEnabledIndex = fromList.findIndex((fromElement) => fromElement.isEnabled === true);
-            fromList.splice(nextEnabledIndex, 0, item);
-            fromList.reverse();
-            toList.push(item);
-        } else {
-            fromList.push(item);
-        }
-        
-        // for (let i = 0; i < fromList.length; i++) {
-        //     if
-        //     children.push(<Image style={starIconStyle} source={starIcon}/>);
-        // }
-    }
-    
-    onSubmit() {
-        const sorted = this.props.sorted.slice();
-        const unsorted = this.props.unsorted.slice();
-        this.props.submit({
-            sorted: sorted,
-            unsorted: unsorted
-        })
+        const index = fromList.indexOf(item);
+        fromList.splice(index, 1);
+        item.isEnabled = !item.isEnabled;
+        toList.push(item);
     }
     
     render() {
-        const {sorted, unsorted} = this.props;
+        const sorted = this.props.sorted.slice();
+        const unsorted = this.props.unsorted.slice();
+        sorted.forEach(item => item.isEnabled = true);
+        unsorted.forEach(item => item.isEnabled = false);
+    
+        const listToRender = sorted.concat(unsorted);
         const flexRatio = (unsorted.length) ? 1/unsorted.length : 1/sorted.length;
         const profilePictureContainerSizeStyle = [listItem, shadowStyle, {flex: flexRatio,}];
         
@@ -79,10 +44,10 @@ export default class SortableForm extends Component {
             <View style={sortableFormContainer}>
                 <View style={listContainer}>
                     {
-                        unsorted.map(item => {
+                        listToRender.map(item => {
                             return (
                                 <View style={item.isEnabled ? [profilePictureContainerSizeStyle, {backgroundColor: 'rgba(67, 145, 240, 0.75)',}] : [profilePictureContainerSizeStyle, {backgroundColor: 'rgba(192, 196, 197, 0.5)',}]}>
-                                    <ClickableImageWithCaption caption={this.props.itemsFormat(item)} selectedItem={item} onPress={() => this.popItemIntoSortedList(item)}/>
+                                    <ClickableImageWithCaption caption={this.props.itemsFormat(item)} selectedItem={item} onPress={() => this.popItems(item)}/>
                                 </View>
                             );
                         })

@@ -74,18 +74,17 @@ const options = {
 export default class CreateTaskForm extends Component {
 
     constructor(props) {
-        console.log('CREATE TASK FORM PROPS');
-        console.log(props);
         super(props);
         const {roommates} = this.props;
         const {task} = this.props;
         const usersRotation = task ? task.usersRotation : roommates;
-        const assigneeList = this.resetRoommates(usersRotation, roommates);
-        console.log(assigneeList);
+        // Get the proper assignee|unassignee list as lists of User objects to be properly rendered in CreateTaskForm.
+        const assigneeList = usersRotation.map(userId => roommates.filter(roomie => userId === roomie.id)[0]).filter(item => !!item);
+        const unassigneeList = roommates.filter(roomie => usersRotation.indexOf(roomie.id) < 0);
     
         this.state = {
             sorted: assigneeList,
-            unsorted: assigneeList,
+            unsorted: unassigneeList,
             task: null,
         };
     
@@ -96,35 +95,23 @@ export default class CreateTaskForm extends Component {
 
     /* 'Add task'|'Update task' submit function */
     handleSubmit() {
-        // Save the Task instance as 'value'.
+        // Get the Task instance input values as 'value'.
         let value = this._form.getValue();
-        //
-        // // Get the usersRotation's ID order.
-        // let usersID = [];
-        // const sorted = this.state.sorted.slice();
-        // sorted.map(item => { usersID.push(item.id); });
-        // const usersID = this.submitForm();
 
         // If validation fails, value will be null.
         if (value) {
-            const {roommates} = this.props;
             const {task} = this.props;
-            this.resetRoommates(roommates, roommates);
-            console.log('CreateTaskForm on ');
-            console.log(task);
-            console.log(value);
+            const usersRotation = this.state.sorted.map(roomie => roomie.id);
             value = {
                 title: value.title,
                 frequency: value.frequency,
                 start: value.start,
                 effort: value.effort,
-                usersRotation: this.submitForm(),
+                usersRotation: usersRotation,
             };
             if (task && task.id) {
                 value.id = task.id;
             }
-            console.log('CreateTaskForm on submit');
-            console.log(value);
             // The onFormSubmit function was passed down as a prop from App.js
             this.props.onFormSubmit(value);
         }
@@ -132,20 +119,6 @@ export default class CreateTaskForm extends Component {
 
     /* 'Delete task' submit function */
     handleDelete(task) {
-        // Save the Task instance as 'value'.
-        // let value = this._form.getValue();
-        //
-        // // Get the usersRotation's ID order.
-        // let usersID = [];
-        // const sorted = this.state.sorted.slice();
-        // sorted.map(item => { usersID.push(item.id); });
-        // const usersID = this.submitForm();
-    
-        console.log('handleDelete');
-        // console.log(this.props);//
-        // const {task} = this.props;
-        console.log('CreateTaskForm on DELETE submit');
-        console.log(task);
         // The onDeleteSubmit function was passed down as a prop from App.js
         this.props.onDeleteSubmit(task);
     }
@@ -160,8 +133,6 @@ export default class CreateTaskForm extends Component {
         if (this.state.task) {
             task = Object.assign({}, this.state.task);
         } else if (task) {
-            console.log('CREATE FORM');
-            console.log(task.users);
             task = {
                 title: task.title,
                 frequency: task.frequency.toUpperCase(),
@@ -183,61 +154,6 @@ export default class CreateTaskForm extends Component {
         );
     }
     
-    resetRoommates(usersRotation, roommates) {
-        // Set all usersRotation's roomies isEnabled back to true.
-        console.log(usersRotation);
-        const assigneeList = roommates.map(assigneeID => {
-            let assignee = roommates.filter(roomies => assigneeID === roomies.id);
-            let unassignee = roommates.filter(roomies => assigneeID !== roomies.id);
-            console.log('ASSIGNEE---');
-            console.log(assignee);
-            if (assignee.length) {
-                assignee = {
-                    id: assignee[0].id,
-                    nickname: assignee[0].nickname,
-                    score: assignee[0].score,
-                    isEnabled: true,
-                };
-            } else {
-                assignee = {
-                    id: unassignee[0].id,
-                    nickname: unassignee[0].nickname,
-                    score: unassignee[0].score,
-                    isEnabled: false,
-                };
-            }
-    
-            // assignee = {
-            //     id: assigneeID.id,
-            //     nickname: assigneeID.nickname,
-            //     score: assigneeID.score,
-            //     isEnabled: true,//
-            // };
-            // assigneeList.push(assignee);
-            return assignee;
-        });
-
-        this.setState({
-            ...this.state,
-            sorted: assigneeList,
-            unsorted: assigneeList,
-        });
-
-        return assigneeList;
-    }
-    
-    submitForm() {
-        // this.setState({
-        //     sorted: value.sorted,
-        //     unsorted: value.unsorted,
-        // });
-    
-        const sorted = this.state.sorted;
-        // Get the usersRotation's ID order.
-
-        return sorted.map(item => item.id);
-    }
-    
     onSortChange(value) {
         this.setState({
             ...this.state,
@@ -246,28 +162,13 @@ export default class CreateTaskForm extends Component {
         });
     }
     
-    renderUsersRotation(task) {
-        const sorted = this.state.sorted.slice();
-        const unsorted = this.state.unsorted.slice();
-        const roomiesAssigned = (item) => {
-            let assignee = task.usersRotation.filter(assigneeID => assigneeID === item.id);
-            assignee = assignee ? assignee[0] : null;
-            if (assignee) {
-                assignee = assignee[0];
-                assignee.isEnabled = true;
-            } else {
-                assignee = item;
-                assignee.isEnabled = false;
-            }
-            return assignee;
-        };
+    renderUsersRotation() {
+        const { sorted, unsorted } = this.state;
         return (
             <View style={usersRotationContainer}>
                 <SortableForm
                     sorted={sorted}
                     unsorted={unsorted}
-                    submit={this.submitForm}
-                    // itemsFormat={(item) => roomiesAssigned(item)}
                     itemsFormat={item => item.nickname}
                     onSortChange={this.onSortChange}
                 />
