@@ -16,25 +16,37 @@ class HomeScreen extends Component {
     constructor(props) {
         super(props);
     
-        console.log('HOME props ------');
+        // console.log('HOME props ------');
+        // const {score} = this.props;
         const {currentUser} = this.props;
         const {roommates} = this.props;
         // const {tasks} = this.props;
-        console.log(currentUser);
+        // console.log(currentUser);
 
         this.state = {
             tabSelected: 'Overview',
+            score: currentUser ? currentUser.score : 'score!',
             currentUser: currentUser,
             roommates: roommates,
             // tasks: tasks,
         };
         
         this.onTabPressed = this.onTabPressed.bind(this);
-        
+        this.handleActionSubmit = this.handleActionSubmit.bind(this);
     }
     
     componentDidMount() {
         this.props.FetchUsers();
+    }
+    
+    handleActionSubmit(score) {
+        const currentUser = this.state.currentUser;
+        currentUser.score = score;
+        this.setState({
+            ...this.state,
+            score: score,
+            currentUser: currentUser,
+        })
     }
     
     renderHeader() {
@@ -73,7 +85,7 @@ class HomeScreen extends Component {
             <View>
                 {this.renderHeader()}
                 {this.state.tabSelected === 'Overview' &&
-                <TaskContainer navigator={this.props.navigation}/>
+                <TaskContainer navigator={this.props.navigation} onAction={this.handleActionSubmit}/>
                 }
                 {this.state.tabSelected === 'HoF' &&
                 <HallOfFameContainer>HoF container</HallOfFameContainer>
@@ -102,6 +114,7 @@ function mapStateToProps(state) {
     // this.props.FetchTasks();
     return {
         // tasks: state.taskData.tasks,
+        // score: state.usersData.currentUser.score,
         currentUser: state.usersData.currentUser,
         roommates: state.usersData.users,
     }

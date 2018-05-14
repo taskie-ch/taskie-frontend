@@ -49,7 +49,6 @@ const SwitchNav = SwitchNavigator(
 
 export default class App extends Component {
     render() {
-        console.log('PASSed -----------------------------------------------');
         return (
             <Provider store={Store}>
                 <SwitchNav/>

@@ -65,7 +65,7 @@ class SignInScreen extends Component {
             })
             .catch(error => {
                 console.log('Failed to log-in');
-                console.log(error);
+                // console.log(error);
 
                 this.setHasError(true);
                 

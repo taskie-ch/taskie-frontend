@@ -11,9 +11,6 @@ export default TaskCard = ({ id, title, start, done, user, currentUser, taskCard
     const dateDue = new Date(start);
     const DateDiff = require('date-diff');
     const diff = new DateDiff(dateNow, dateDue);
-    console.log('current user');
-    console.log(currentUser);
-    console.log(user);
 
     const renderBotton = (rowLevel) => {
         const isCurrentUser = user === currentUser.nickname.toUpperCase();

@@ -17,9 +17,9 @@ export default Header = ({currentUser, score, onCreateTaskPressed, onTabPressed,
     return (
         <View style={headerContainer}>
             <View style={headerContainer}>
-                <Text style={headerTitle}>{currentUser.nickname}'s Score</Text>
+                <Text style={headerTitle}>{currentUser ? currentUser.nickname : 'NM'}'s Score</Text>
                 <Text style={headerContent}>
-                    {score ? score : '3'}
+                    {score !== null ? score : '3'}
                     <Text> </Text>
                     <Image style={headerXIcon} source={xSign}/>
                     <Text> </Text>

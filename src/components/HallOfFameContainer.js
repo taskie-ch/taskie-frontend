@@ -11,8 +11,8 @@ import styles from './../styles';
 class HallOfFameContainer extends Component {
     
     constructor(props) {
-        console.log('HoF PROPS');
-        console.log(props);
+        // console.log('HoF PROPS');
+        // console.log(props);
         super(props);
         const {roommates} = this.props;
         // const usersRotation = this.resetRoommates(roommates);
@@ -80,8 +80,6 @@ class HallOfFameContainer extends Component {
         const users = this.props.users;
         
         return users.map(user => {
-            console.log('USER Score card');
-            console.log(user);
                 return <RoommateScoreCard
                     key={`${user.id}`}
                     id={user.id}
@@ -123,8 +121,8 @@ class HallOfFameContainer extends Component {
 
 function mapStateToProps(state) {
     
-    console.log('HoF STATE ------');
-    console.log(state);
+    // console.log('HoF STATE ------');
+    // console.log(state);
     return {
         users: state.usersData.users
     }
