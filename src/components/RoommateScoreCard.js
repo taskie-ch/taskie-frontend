@@ -3,7 +3,7 @@ import { View, Text, Image } from 'react-native';
 import { userIcon, starIcon } from '../Utils/Icons';
 import styles from './../styles';
 
-export default RoommateScoreCard = ({ id, nickname, score}) => {
+const RoommateScoreCard = ({ id, nickname, score}) => {
 
     const renderStars = () => {
         let children = [];
@@ -43,3 +43,5 @@ const {
     starIconStyleContainer,
     starIconStyle,
 } = styles;
+
+export default RoommateScoreCard;

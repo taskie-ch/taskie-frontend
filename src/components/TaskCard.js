@@ -6,7 +6,7 @@ import { userIcon } from '../Utils/Icons';
 import styles from './../styles';
 
 
-export default TaskCard = ({ id, title, start, done, user, currentUser, taskCardPressed, taskDone, taskSkip, taskIWillDoIt}) => {
+const TaskCard = ({ id, title, start, done, user, currentUser, taskCardPressed, taskDone, taskSkip, taskIWillDoIt}) => {
     const dateNow = new Date(new Date().setHours(0, 0, 0, 0));
     const dateDue = new Date(start);
     const DateDiff = require('date-diff');
@@ -105,3 +105,5 @@ const {
     taskCardButton,
     taskCardButtonText,
 } = styles;
+
+export default TaskCard;

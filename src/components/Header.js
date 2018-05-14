@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { addBlueIcon, xSign, starIcon } from "../Utils/Icons";
 import styles from './../styles';
 
-export default Header = ({currentUser, score, onCreateTaskPressed, onTabPressed, tabSelected}) => {
+const Header = ({currentUser, score, onCreateTaskPressed, onTabPressed, tabSelected}) => {
     let leftActive = (tabSelected === 'Overview');
     const leftIconStyle = (leftActive) ? [headerIconLeft, headerActiveButton] : headerIconLeft;
     const rightIconStyle = (!leftActive) ? [headerIconRight, headerActiveButton] : headerIconRight;
@@ -71,3 +71,5 @@ const {
     headerIconCenterImage,
     headerIconRight
 } = styles;
+
+export default Header;
