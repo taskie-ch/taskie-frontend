@@ -448,7 +448,7 @@ const styles = StyleSheet.create({
     // CreateTaskForm.js ----------------------------
     createTaskFormButton: {
         // loginFormButton + ...
-        marginTop: 125,
+        marginTop: 30,
     },
     createTaskFormDeleteButton: {
         // loginFormButton + ...

@@ -108,7 +108,7 @@ class CreateTaskScreen extends Component {
         // console.log(users);
         // console.log(usersRotation);
         return (
-            <View>
+            <View style={{flex: 1, paddingBottom: 10,}}>
                 <CreateTaskForm task={task} roommates={roommates} onFormSubmit={this.handleFormSubmit} onDeleteSubmit={this.handleDeleteTaskSubmit}/>
 
                 {/*<View style={styles.createTaskScreenDebugContainer}>*/}

@@ -1,6 +1,6 @@
 import t from 'tcomb-form-native';
 import React, { Component } from 'react';
-import { Text, View, TouchableHighlight } from 'react-native';
+import { Text, View, TouchableHighlight, ScrollView } from 'react-native';
 import SortableForm from './SortableForm';
 import styles from './../styles';
 
@@ -180,18 +180,20 @@ export default class CreateTaskForm extends Component {
     render() {
         const {task} = this.props;
         return (
-            <View style={loginFormContainer}>
-                {this.createForm(task)}
-                <Text style={createTaskFormParagraph}>Tap on the pictures to change the order:</Text>
-                {this.renderUsersRotation(task)}
-                <TouchableHighlight style={[loginFormButton, createTaskFormButton]} onPress={this.handleSubmit} underlayColor='#99d9f4'>
-                    <Text style={loginFormButtonText}>{task ? 'Update Task' : 'Add Task'}</Text>
-                </TouchableHighlight>
-                {task ?
-                <TouchableHighlight style={[loginFormButton, createTaskFormDeleteButton]} onPress={() => this.handleDelete(task)} underlayColor='#99d9f4'>
-                    <Text style={loginFormButtonText}>Delete Task</Text>
-                </TouchableHighlight> : ''}
-            </View>
+            <ScrollView>
+                <View style={loginFormContainer}>
+                    {this.createForm(task)}
+                    <Text style={createTaskFormParagraph}>Tap on the pictures to change the order:</Text>
+                    {this.renderUsersRotation(task)}
+                    <TouchableHighlight style={[loginFormButton, createTaskFormButton]} onPress={this.handleSubmit} underlayColor='#99d9f4'>
+                        <Text style={loginFormButtonText}>{task ? 'Update Task' : 'Add Task'}</Text>
+                    </TouchableHighlight>
+                    {task ?
+                    <TouchableHighlight style={[loginFormButton, createTaskFormDeleteButton]} onPress={() => this.handleDelete(task)} underlayColor='#99d9f4'>
+                        <Text style={loginFormButtonText}>Delete Task</Text>
+                    </TouchableHighlight> : ''}
+                </View>
+            </ScrollView>
         )
     }
 }
