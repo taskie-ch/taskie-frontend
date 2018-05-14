@@ -26,7 +26,6 @@ class SignInScreen extends Component {
     
     setCurrentUser(cuID, cuNickname, cuScore) {
         this.setState({
-            ...state,
             currentUser: {
                 id: cuID,
                 nickname: cuNickname,
@@ -38,7 +37,6 @@ class SignInScreen extends Component {
     setHasError(hasError) {
         console.log('setting hasError');
         this.setState({
-            ...state,
             hasError: hasError,
         });
     }
