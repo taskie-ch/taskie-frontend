@@ -25,6 +25,13 @@ class HallOfFameContainer extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
+    updateHeader = () => {
+        const {currentUser} = this.props;
+        console.log('HoF currentUser');
+        console.log(currentUser);
+        this.props.onAction(currentUser.score);
+    };
+    
     /* 'Reset ranking' submit function */
     handleSubmit() {
         // Save the Task instance as 'value'.
@@ -53,6 +60,7 @@ class HallOfFameContainer extends Component {
 
     componentDidMount() {
         this.props.FetchUsers();
+        this.updateHeader();
     }
     
     resetRoommates(roommates) {
@@ -77,8 +85,8 @@ class HallOfFameContainer extends Component {
     }
 
     renderRoomateScoreCards() {
-        const users = this.props.users;
-        
+        let users = this.props.users;
+        users = (users.length > 1) ? users.sort(function(user1, user2){return user1.score - user2.score}).reverse() : [];
         return users.map(user => {
                 return <RoommateScoreCard
                     key={`${user.id}`}
@@ -124,6 +132,7 @@ function mapStateToProps(state) {
     // console.log('HoF STATE ------');
     // console.log(state);
     return {
+        currentUser: state.usersData.currentUser,
         users: state.usersData.users
     }
 }

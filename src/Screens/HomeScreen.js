@@ -22,6 +22,7 @@ class HomeScreen extends Component {
         const {roommates} = this.props;
         // const {tasks} = this.props;
         // console.log(currentUser);
+        // console.log(roommates);
 
         this.state = {
             tabSelected: 'Overview',
@@ -39,20 +40,19 @@ class HomeScreen extends Component {
         this.props.FetchUsers();
     }
     
-    handleActionSubmit(score) {
-        const currentUser = this.state.currentUser;
-        currentUser.score = score;
-        this.setState({
-            ...this.state,
-            score: score,
-            currentUser: currentUser,
-        })
-    }
+    handleActionSubmit = async (score) => {
+        const res = await this.props.FetchUsers();
+        console.log('handleActionSubmit fetch users res');
+        console.log(res);
+        const {currentUser} = this.props;
+        // const {roommates} = this.props;
+        console.log(currentUser);
+    };
     
     renderHeader() {
         const currentUser = this.props.currentUser;
-        console.log('current user score');
-        console.log(currentUser);
+        // console.log('current user score');
+        // console.log(currentUser);
         let score = currentUser ? currentUser.score : 'score';
         
         const {tabSelected} = this.state;
@@ -88,7 +88,7 @@ class HomeScreen extends Component {
                 <TaskContainer navigator={this.props.navigation} onAction={this.handleActionSubmit}/>
                 }
                 {this.state.tabSelected === 'HoF' &&
-                <HallOfFameContainer>HoF container</HallOfFameContainer>
+                <HallOfFameContainer onAction={this.handleActionSubmit}>HoF container</HallOfFameContainer>
                 }
             </View>
         );
@@ -126,6 +126,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
-
-// export default connect(mapStateToProps, { FetchUsers, FetchTasks })(HomeScreen)
-// export default connect(mapStateToProps, { FetchUsers })(HomeScreen)
