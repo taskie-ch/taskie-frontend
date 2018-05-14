@@ -15,13 +15,40 @@ export function FetchUsers() {
     return dispatch => {
 
         // dispatch({ type: FETCHING_USERS });
+        const config = {
+            headers: {
+                'accept': 'application/json',
+            }
+        };
 
-        return axios.get(`${apiBaseURL}/hof`)
-            .then(res => {
-                return dispatch({type: FETCHING_USERS_SUCCESS, payload: res.data});
+        return axios.get(`${apiBaseURL}/hof`, {}, config)
+            .then(async (res) => {
+    
+                const currentUserID = await AsyncStorage.getItem('currentUserID');
+    
+                let currentUser = res.data.filter(user => user.id === currentUserID);
+
+                const payload = {
+                    users: res.data,
+                    currentUser: currentUser.length ? currentUser[0] : null,
+                };
+                return dispatch({type: FETCHING_USERS_SUCCESS, payload: payload});
             })
-            .catch(err => {
-                return dispatch({type: FETCHING_USERS_FAIL, payload: err});
+            .catch(async (err) => {
+                const currentUserID = await AsyncStorage.getItem('currentUserID');
+                const currentUserNickname = await AsyncStorage.getItem('currentUserNickname');
+                const currentUserScore = await AsyncStorage.getItem('currentUserScore');
+                let currentUser = currentUserID instanceof Promise ? null : {
+                    id: currentUserID,
+                    nickname: currentUserNickname,
+                    score: currentUserScore
+                };
+                const payload = {
+                    errorMessage: err,
+                    users: [],
+                    currentUser: currentUser,
+                };
+                return dispatch({type: FETCHING_USERS_FAIL, payload: payload});
             });
         
     }
