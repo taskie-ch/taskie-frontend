@@ -16,7 +16,6 @@ const initialState = {
         frequency: 'DAILY',
         start: new Date().setFullYear(2018,4,9),
         usersRotation: ['Jane', 'Tom', 'Joe'],
-        // usersRotation: ['Alice', 'Bob', 'Chris', 'Dave'],
     },
         {
         id: '1234',
@@ -39,16 +38,6 @@ const initialState = {
     errorMessage: null,
 };
 
-// function guid() {
-//     function s4() {
-//         return Math.floor((1 + Math.random()) * 0x10000)
-//             .toString(16)
-//             .substring(1);
-//     }
-//
-//     return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
-// }
-
 export default function (state = initialState, action) {
 
     switch (action.type) {
@@ -68,19 +57,11 @@ export default function (state = initialState, action) {
         case FETCHING_TASKS_SUCCESS:
             console.log('FETCHING_TASKS_SUCCESS');
             console.log(action.payload);
-            // Create a list of tasks with an ID.
-            // const tasks = action.payload.map((task) => {
-            // const tasks = state.tasks.map((task) => {
-            //     //TODO: replace with actual ids
-            //     task.id = guid();
-            //     return task;
-            // });
 
             return Object.assign({}, state, {
                 ...state,
                 isFetching: false,
                 tasks: action.payload,
-                // tasks: state.tasks,
                 hasError: false,
                 errorMessage: null
             });
@@ -90,7 +71,6 @@ export default function (state = initialState, action) {
                 ...state,
                 isFetching: false,
                 tasks: action.payload,
-                // tasks: state.tasks,
                 hasError: true,
                 errorMessage: action.err
             });
@@ -113,7 +93,6 @@ export default function (state = initialState, action) {
                 ...state,
                 isFetching: false,
                 // tasks: action.payload,
-                // tasks: state.tasks,
                 hasError: false,
                 errorMessage: null
             });
@@ -124,8 +103,7 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 ...state,
                 isFetching: false,
-                // tasks: action.payload,//
-                // tasks: state.tasks,
+                // tasks: action.payload,
                 hasError: true,
                 errorMessage: action.err
             });

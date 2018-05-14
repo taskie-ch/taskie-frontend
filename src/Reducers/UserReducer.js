@@ -37,17 +37,12 @@ export default function (state = initialState, action) {
         score: 6,
     };
     console.log('user reducer');
-    // console.log(state.currentUser);
-    // console.log(AsyncStorage.getItem('currentUserID'));
     const currentUserID = AsyncStorage.getItem('currentUserID');
-    // console.log('currentUserID instanceof Promise');
-    // console.log(currentUserID instanceof Promise);
     let currentUser = currentUserID instanceof Promise ? state.currentUser : {
         id: currentUserID,
         nickname: AsyncStorage.getItem('currentUserNickname'),
         score: AsyncStorage.getItem('currentUserScore'),
     };
-    // console.log(currentUser);
     currentUser = currentUser !== null ? currentUser : demoUser;
     console.log(currentUser);
     
@@ -74,36 +69,34 @@ export default function (state = initialState, action) {
                 ...state,
                 isFetching: true,
                 currentUser: currentUser ? currentUser : state.users[0],
-                users: state.users,
-                // users: [],
+                // users: state.users,
+                users: [],
                 hasError: false,
-                errorMessage: null
+                errorMessage: null,
             });
 
         case FETCHING_USERS_SUCCESS:
-            // console.log('FETCHING_USERS_SUCCESS');
+            console.log('FETCHING_USERS_SUCCESS');
             // console.log(action.payload);
             // console.log(currentUser);
     
             return Object.assign({}, state, {
                 ...state,
                 isFetching: false,
-                currentUser: state.currentUser ? state.currentUser : currentUser,
-                users: action.payload,
-                // users: state.users,
+                currentUser: action.payload.currentUser,
+                users: action.payload.users,
                 hasError: false,
-                errorMessage: null
+                errorMessage: null,
             });
 
         case FETCHING_USERS_FAIL:
             return Object.assign({}, state, {
                 ...state,
                 isFetching: false,
-                currentUser: state.currentUser ? state.currentUser : currentUser,
-                users: action.payload,
-                // users: state.users,
+                currentUser: action.payload.currentUser,
+                users: action.payload.users,
                 hasError: true,
-                errorMessage: action.err
+                errorMessage: action.payload.errorMessage,
             });
 
         default:
