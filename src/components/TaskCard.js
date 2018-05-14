@@ -33,7 +33,7 @@ const TaskCard = ({ id, title, start, done, user, currentUser, taskCardPressed, 
                 } else {
                     buttonStyle = [taskCardButton, {flex: 0.63, flexDirection: 'row', backgroundColor: '#ecad47',}];
                     buttonTitle = 'Remind';
-                    onButtonPressed = taskDone;
+                    onButtonPressed = null;
                 }
                 break;
             case 'lower':
