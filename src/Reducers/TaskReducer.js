@@ -60,13 +60,14 @@ export default function (state = initialState, action) {
                 ...state,
                 isFetching: true,
                 // tasks: state.tasks,
+                tasks: [],
                 hasError: false,
                 errorMessage: null
             });
 
         case FETCHING_TASKS_SUCCESS:
-            // console.log('FETCHING_TASKS_SUCCESS');
-            // console.log(action.payload);
+            console.log('FETCHING_TASKS_SUCCESS');
+            console.log(action.payload);
             // Create a list of tasks with an ID.
             // const tasks = action.payload.map((task) => {
             // const tasks = state.tasks.map((task) => {
@@ -88,7 +89,7 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 ...state,
                 isFetching: false,
-                tasks: action.payload,//
+                tasks: action.payload,
                 // tasks: state.tasks,
                 hasError: true,
                 errorMessage: action.err
@@ -100,7 +101,7 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 ...state,
                 isFetching: true,
-                tasks: state.tasks,
+                // tasks: action.payload,
                 hasError: false,
                 errorMessage: null
             });
@@ -108,12 +109,11 @@ export default function (state = initialState, action) {
         case POSTING_TASK_SUCCESS:
             // console.log('POSTING_TASK_SUCCESS');
             // console.log(action.payload);
-
             return Object.assign({}, state, {
                 ...state,
                 isFetching: false,
                 // tasks: action.payload,
-                tasks: state.tasks,
+                // tasks: state.tasks,
                 hasError: false,
                 errorMessage: null
             });
@@ -125,7 +125,7 @@ export default function (state = initialState, action) {
                 ...state,
                 isFetching: false,
                 // tasks: action.payload,//
-                tasks: state.tasks,
+                // tasks: state.tasks,
                 hasError: true,
                 errorMessage: action.err
             });

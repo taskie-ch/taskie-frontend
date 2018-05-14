@@ -13,7 +13,7 @@ import {
 export function FetchTasks() {
     return dispatch => {
 
-        dispatch({ type: FETCHING_TASKS });
+        // dispatch({ type: FETCHING_TASKS });
 
         return axios.get(`${apiBaseURL}/tasks`)
             .then(res => {
@@ -29,14 +29,14 @@ export function FetchTasks() {
 export function PostTask(task) {
     return dispatch => {
 
-        dispatch({ type: POSTING_TASK });
+        dispatch({ type: POSTING_TASK, payload: task });
 
         const url = task.id ? `${apiBaseURL}/tasks/${task.id}` : `${apiBaseURL}/tasks`;
         return axios.post(url, task)
             .then(res => {
                 console.log('SUCCESS');
-                return dispatch({ type: POSTING_TASK_SUCCESS, payload: res.data });
-                // return FetchTasks();
+                // return dispatch({ type: POSTING_TASK_SUCCESS, payload: res.data });
+                return FetchTasks();
             })
             .catch(err => {
                 console.log('FAIL');

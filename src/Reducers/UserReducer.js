@@ -33,7 +33,7 @@ export default function (state = initialState, action) {
     // Just to bypass logging in a user each time this app saves a change...
     const demoUser = {
         id: '2b95993380f8be6bd4bd46bf44f98db9',
-        nickname: 'Jane',
+        nickname: 'Janed',
         score: 6,
     };
     console.log('user reducer');
@@ -81,9 +81,9 @@ export default function (state = initialState, action) {
             });
 
         case FETCHING_USERS_SUCCESS:
-            console.log('FETCHING_USERS_SUCCESS');
+            // console.log('FETCHING_USERS_SUCCESS');
             // console.log(action.payload);
-            console.log(currentUser);
+            // console.log(currentUser);
     
             return Object.assign({}, state, {
                 ...state,
