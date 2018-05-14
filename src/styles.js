@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         // marginBottom: 10,
         marginLeft: 10,
-        backgroundColor: 'danger',
+        // backgroundColor: 'danger',
         borderColor: 'red',
         borderWidth: 1,
         borderRadius: 8,
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
             ios: {
                 // backgroundColor: 'red',
                 // ios
-                boxShadow: 1,
+                // boxShadow: 1,
                 shadowOpacity: 0,
                 shadowRadius: 5,
             },
@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
             ios: {
                 // backgroundColor: 'red',
                 // ios
-                verticalAlign: 'center',
+                // verticalAlign: 'center',
                 width: 100,
                 height: 30,
             },
