@@ -85,10 +85,14 @@ class HomeScreen extends Component {
             <View>
                 {this.renderHeader()}
                 {this.state.tabSelected === 'Overview' &&
-                <TaskContainer navigator={this.props.navigation} onAction={this.handleActionSubmit}/>
+                <View styles={{flex: 1}}>
+                    <TaskContainer navigator={this.props.navigation} onAction={this.handleActionSubmit}/>
+                </View>
                 }
                 {this.state.tabSelected === 'HoF' &&
-                <HallOfFameContainer onAction={this.handleActionSubmit}>HoF container</HallOfFameContainer>
+                <View styles={{flex: 1}}>
+                    <HallOfFameContainer onAction={this.handleActionSubmit}>HoF container</HallOfFameContainer>
+                </View>
                 }
             </View>
         );
