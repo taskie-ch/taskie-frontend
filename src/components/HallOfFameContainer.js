@@ -32,6 +32,22 @@ class HallOfFameContainer extends Component {
         this.props.onAction(currentUser.score);
     };
     
+    updateHomeScreen = (usersRotation) => {
+        let {currentUser} = this.props;
+        // const {roommates} = this.props;
+        // console.log('HoF reset currentUser');
+        // console.log(currentUser);
+        // console.log(roommates);
+        // console.log(usersRotation);
+        currentUser = currentUser ? usersRotation.filter(user => user.id === currentUser.id) : null;
+        this.setState({
+            ...this.state,
+            currentUser: currentUser,
+            roommates: usersRotation,
+        });
+        this.props.onResetRanking(currentUser, usersRotation);
+    };
+    
     /* 'Reset ranking' submit function */
     handleSubmit() {
         // Save the Task instance as 'value'.
@@ -41,11 +57,12 @@ class HallOfFameContainer extends Component {
         // let usersID = [];
         // const sorted = this.state.sorted.slice();
         // sorted.map(item => { usersID.push(item.id); });
-        const {roommates} = this.props;
-        
+        const {users} = this.props;
+        // console.log('Reset ranking clicked');
+        // console.log(users);
         // If validation fails, value will be null.
-        if (roommates) {
-            this.resetRoommates(roommates);
+        if (users) {
+            const usersRotation = this.resetRoommates(users);
             // value = {
             //     title: value.title,
             //     frequency: value.frequency,
@@ -54,7 +71,8 @@ class HallOfFameContainer extends Component {
             //     usersRotation: usersID,
             // };
             // The onFormSubmit function was passed down as a prop from App.js
-            this.props.onFormSubmit(roommates);
+            // this.props.onFormSubmit(users);
+            this.updateHomeScreen(usersRotation);
         }
     }
 
@@ -75,9 +93,14 @@ class HallOfFameContainer extends Component {
             };
             usersRotation.push(roomie);
         });
-        
+        // console.log('Reset rankingd');
+        // console.log(usersRotation);
+    
+        let {currentUser} = this.props;
+        currentUser = currentUser ? usersRotation.filter(user => user.id === currentUser.id) : null;
         this.setState({
             ...this.state,
+            currentUser: currentUser,
             roommates: usersRotation,
         });
         

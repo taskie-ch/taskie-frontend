@@ -34,6 +34,7 @@ class HomeScreen extends Component {
         
         this.onTabPressed = this.onTabPressed.bind(this);
         this.handleActionSubmit = this.handleActionSubmit.bind(this);
+        this.handleResetSubmit = this.handleResetSubmit.bind(this);
     }
     
     componentDidMount() {
@@ -47,6 +48,22 @@ class HomeScreen extends Component {
         const {currentUser} = this.props;
         // const {roommates} = this.props;
         console.log(currentUser);
+    };
+    
+    handleResetSubmit = (currentUser, roommates) => {
+        // const res = await this.props.FetchUsers();
+        // console.log('handleActionSubmit fetch users res');
+        // console.log(res);
+        // const {currentUser} = this.props;
+        // const {roommates} = this.props;
+        // console.log('handleResetSubmit');
+        // console.log(currentUser);
+        // console.log(roommates);
+        this.setState({
+            score: 0,
+            currentUser: currentUser,
+            roommates: roommates,
+        });
     };
     
     renderHeader() {
@@ -88,7 +105,7 @@ class HomeScreen extends Component {
                 <TaskContainer navigator={this.props.navigation} onAction={this.handleActionSubmit}/>
                 }
                 {this.state.tabSelected === 'HoF' &&
-                <HallOfFameContainer onAction={this.handleActionSubmit}>HoF container</HallOfFameContainer>
+                <HallOfFameContainer onAction={this.handleActionSubmit} onResetRanking={this.handleResetSubmit}>HoF container</HallOfFameContainer>
                 }
             </View>
         );
