@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "26.0.0"
+    "sdkVersion": "26.0.0",
+    "name": "Taskie",
+    "icon": "./src/Utils/images/logo-app.png",
+    "version": "1.0.0",
+    "slug": "taskie",
+    "ios": {
+      "bundleIdentifier": "ch.zhaw.taskie"
+    },
+    "android": {
+      "package": "ch.zhaw.taskie"
+    }
   }
 }
