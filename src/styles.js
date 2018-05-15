@@ -108,16 +108,31 @@ const styles = StyleSheet.create({
             android: {
                 // backgroundColor: 'blue',
                 // android2
-                width: 50,
-                height: 45,
+                width: 100,
+                height: 90,
             },
         }),
     },
     headerStarIcon: {
-        width: Platform.OS === 'ios' ? 30 : 60,//80, // android1
-        height: Platform.OS === 'ios' ? 30 : 60,//80, // android1
+        //width: Platform.OS === 'ios' ? 30 : 60,//80, // android1
+        //height: Platform.OS === 'ios' ? 30 : 60,//80, // android1
         paddingLeft: 10,
         // paddingRight: 10
+        resizeMode: 'contain',
+        ...Platform.select({
+            ios: {
+                // backgroundColor: 'red',
+                // ios
+                width: 30,
+                height: 30,
+            },
+            android: {
+                // backgroundColor: 'blue',
+                // android2
+                width: 100,
+                height: 100,
+            },
+        }),
     },
     headerButton: {
         flex: 1,
@@ -233,14 +248,41 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: 'auto',// 50,//'100%',//80,
         // height: Platform.OS === 'ios' ? 20 : 80,
-        marginLeft: 20,
+        //resizeMode: 'contain',
+        ...Platform.select({
+            ios: {
+                // backgroundColor: 'red',
+                // ios
+                marginLeft: 20,
+            },
+            android: {
+                // backgroundColor: 'blue',
+                // android2
+                marginLeft: 30,
+            },
+        }),
     },
     starIconStyle: {
-        width: Platform.OS === 'ios' ? 20 : 80,
-        height: Platform.OS === 'ios' ? 20 : 80,
+        //width: Platform.OS === 'ios' ? 20 : 80,
+        //height: Platform.OS === 'ios' ? 20 : 80,
         paddingRight: 10,
         paddingLeft: 10,
         marginTop: 7,
+        resizeMode: 'contain',
+        ...Platform.select({
+            ios: {
+                // backgroundColor: 'red',
+                // ios
+                width: 20,
+                height: 20,
+            },
+            android: {
+                // backgroundColor: 'blue',
+                // android2
+                width: 20,
+                height: 20,
+            },
+        }),
     },
 
     // TaskCard.js -------------------------------------
@@ -413,7 +455,7 @@ const styles = StyleSheet.create({
     },
     captionStyle: {
         textAlign: 'center',
-        alignContent: 'center',
+        //alignContent: 'center',
         alignSelf: 'center',
         justifyContent: 'center',
         paddingTop: 4,
@@ -432,11 +474,11 @@ const styles = StyleSheet.create({
                 // backgroundColor: 'blue',
                 // android2
                 flex: 1,
-                textAlignVertical: 'center',
-                width: 65,
-                height: 300,//150,
-                paddingBottom: 4,
-                marginBottom: 30,
+                //textAlignVertical: 'center',
+                width: 100,
+                height: 150,//150,
+                //paddingBottom: 4,
+                //marginBottom: 30,
             },
         }),
     },
